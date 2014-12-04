@@ -9,8 +9,11 @@ package javarmi.conta_bancaria.impl;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
 import javarmi.conta_bancaria.interfaces.InterfaceConta;
+import oracle.jrockit.jfr.tools.ConCatRepository;
 
 /**
  *
@@ -37,18 +40,29 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         numAgencia = 306;
         nomeBanco = "Tio patinhas";
         refCli = ref;
+        
+        ServImpl.contas.inserirConta(numConta, this);
+        
         System.out.println("Novo cliente cadastrado: " + nomeCli + "\n");
+        
+        ContaImpl contaMap = ServImpl.contas.recuperarConta(numConta);
+        
+        System.out.println(contaMap.getSenhaCli());
     }
 
     /**
      * Gerar numero de conta.
      * Gera um novo numero de conta.
-     * @return
+     * @return numeroConta Numero da conta do cliente
      * @throws RemoteException 
      */
     public String gerarNumConta(){
-        String numeroConta;
-        numeroConta = "120.362.623.1";
+        String numeroConta = "";
+        boolean contaExiste = true;
+        while(!contaExiste){
+            numeroConta = "120.362.623.1";
+            contaExiste = ServImpl.contas.contaExiste(numeroConta);
+        }
         return numeroConta;
     }
     

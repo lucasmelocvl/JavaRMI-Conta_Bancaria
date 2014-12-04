@@ -9,10 +9,11 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import javarmi.conta_bancaria.interfaces.InterfaceServ;
 import java.rmi.server.UnicastRemoteObject;
+import javarmi.conta_bancaria.contas.MapContas;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
 import javarmi.conta_bancaria.interfaces.InterfaceConta;
+import javarmi.conta_bancaria.interfaces.InterfaceServ;
 
 /**
  *
@@ -20,6 +21,7 @@ import javarmi.conta_bancaria.interfaces.InterfaceConta;
  */
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
 
+    public static MapContas contas;
     InterfaceCli refCli;
     ContaImpl contaCli;
     
@@ -31,6 +33,9 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
         //A classe é associada a um nome para ser acessado externamente
         //(Registra uma referencia de objeto remoto)
         referenciaServicoNome.rebind("Conta Bancária", this);
+        
+        //Inicia o mapa hash de contas
+        contas = new MapContas();
         
         System.out.println("Serviços bancárias iniciados..\n");
         

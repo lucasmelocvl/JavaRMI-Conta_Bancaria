@@ -48,7 +48,7 @@ public interface InterfaceCli extends Remote{
      * @param valor Valor sacado.
      * @throws RemoteException 
      */
-    void ReceberSaque(float valor) throws RemoteException;
+    public void ReceberSaque(float valor) throws RemoteException;
     
    /**
      * Retorno da transferencia.
@@ -56,6 +56,6 @@ public interface InterfaceCli extends Remote{
      * @param valor Valor do depósito.
      * @throws RemoteException 
      */
-    void retDepositar(float valor) throws RemoteException;
+    public void retDepositar(float valor) throws RemoteException;
     
 }
