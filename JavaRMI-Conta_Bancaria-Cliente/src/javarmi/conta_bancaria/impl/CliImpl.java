@@ -9,10 +9,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
 import javarmi.conta_bancaria.interfaces.InterfaceConta;
 import javarmi.conta_bancaria.interfaces.InterfaceServ;
-import java.util.Scanner;
+import javarmi.conta_bancaria.swing.TelaInicial;
 
 /**
  *
@@ -35,16 +36,29 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         String nome;
         String senha;
         Scanner sc = new Scanner(System.in);
-        refServ = (InterfaceServ) referenciaServicoNomes.lookup("Conta Bancária");
-        System.out.println("Nome: Lucas de Melo Carvalho");
-        nome = "Lucas de Melo Carvalho";
-        //System.out.println("Nome: ");
-        //nome = sc.nextLine();
-        System.out.println("Senha: senha123");
-        senha = "senha123";
-        //System.out.println("Senha: ");
-        //senha = sc.nextLine();
-        refServ.criarConta(nome, senha, this);
+        
+        try{
+            refServ = (InterfaceServ) referenciaServicoNomes.lookup("Conta Bancária");
+            System.out.println("Nome: Lucas de Melo Carvalho");
+            nome = "Lucas de Melo Carvalho";
+
+            //System.out.println("Nome: ");
+            //nome = sc.nextLine();
+
+            System.out.println("Senha: senha123");
+            senha = "senha123";
+
+            TelaInicial tela = new TelaInicial();
+
+            //System.out.println("Senha: ");
+            //senha = sc.nextLine();
+            
+            refServ.criarConta(nome, senha, this);
+        }catch(RemoteException e){
+            System.out.println(e.getMessage());
+            System.out.println("Servidor bancário fora do ar!");
+            System.exit(0);
+        }
     }
 
     @Override
