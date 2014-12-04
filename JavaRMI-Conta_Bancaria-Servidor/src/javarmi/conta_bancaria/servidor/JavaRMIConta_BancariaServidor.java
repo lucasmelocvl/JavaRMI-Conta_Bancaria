@@ -6,17 +6,25 @@
 
 package javarmi.conta_bancaria.servidor;
 
+import javarmi.conta_bancaria.impl.ServImpl;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author lucasmelocvl
  */
-public class JavaRMIConta_BancariaServidor {
+public class JavaRMIConta_BancariaServidor 
+{
 
     /**
      * @param args the command line arguments
+     * @throws java.rmi.RemoteException
+     * @throws java.rmi.AlreadyBoundException
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws RemoteException, AlreadyBoundException 
+    {
+        ServImpl servidor = new ServImpl();
     }
     
 }

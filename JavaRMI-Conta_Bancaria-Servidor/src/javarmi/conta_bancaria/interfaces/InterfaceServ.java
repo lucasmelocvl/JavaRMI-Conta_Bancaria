@@ -15,51 +15,64 @@ import java.rmi.RemoteException;
  */
 public interface InterfaceServ extends Remote{
     
-    public boolean criarConta() throws RemoteException;
+    /**
+     * Criar Conta.
+     * Cria a conta para um novo cliente.
+     * @param nome Nome do cliente.
+     * @param senha Senha do cliente.
+     * @param ref Referencia do cliente.
+     * @throws RemoteException 
+     */
+    public void criarConta(String nome, String senha, InterfaceCli ref) throws RemoteException;
     
     /**
      * Realiza a consulta de saldo do cliente.
      * Através dessa funcao o cliente poderá consultar seu saldo da conta
      * corrente, e seu saldo da poupança. A diferenciação dos tipos de conta
      * é realizada pelo valor do parametro passado.
-     * @param poupanca Será false caso seja conta corrente, e true para poupanca
-     * @param cliente Refere-se a interface do cliente
+     * @param ref Referencia do cliente.
+     * @return saldo do cliente.
      * @throws RemoteException 
      */
-    public float consultarSaldo(boolean poupanca, InterfaceCli cliente) throws RemoteException;
+    public float consultarSaldo(InterfaceCli ref) throws RemoteException;
     
     
     /**
      * Realizar transferencia.
      * Ao chamar essa função, o servidor retorna em tela as demais opções para
      * transferência.
+     * @param valor a ser transferido.
+     * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    void realizarTransferencia() throws RemoteException;
+    public void realizarTransferencia(double valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Sacar.
      * O cliente realiza o saque no valor do parâmetro passado.
      * @param valor Valor a ser sacado.
+     * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    void sacar(float valor) throws RemoteException;
+    public void sacar(double valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Depositar.
      * O cliente realiza o depósito em sua conta no valor do parâmetro passado.
      * @param valor Valor do depósito
+     * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    void depositar(float valor) throws RemoteException;
+    public void depositar(double valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Registrar interesse nas movimentações.
      * O cliente registra interesse, especificamente, nas movimentações
      * de saque e depósito.
+     * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    void registrarInteresse() throws RemoteException;
+    public void registrarInteresse(InterfaceCli ref) throws RemoteException;
     
         
 }
