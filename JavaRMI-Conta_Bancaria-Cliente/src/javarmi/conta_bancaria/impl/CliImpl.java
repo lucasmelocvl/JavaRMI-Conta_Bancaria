@@ -52,7 +52,7 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
             senha = "senha123";
 
             poupanca = false;
-            receberNotificacao = false;
+            receberNotificacao = true;
             
             TelaInicial tela = new TelaInicial();
 
@@ -82,9 +82,24 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
                 System.out.println("Senha: " + senha + "");
                 System.out.println("Numero da conta: "+ numConta + "");
                 
+                
+                //1.Consulta de saldo
                 refServ.consultarSaldo(numConta, senha, this);
-                refServ.depositar(150.50, this);
-                refServ.consultarSaldo(numConta, senha, this);
+                //4.Depósito
+                refServ.depositar(numConta, (float)150.55, this);
+                //3.Saque
+                refServ.sacar(numConta, senha, (float)22.90, this);
+                //2. Transferencia CC
+                System.out.println("\nDigite o número da conta a ser depositado:");
+                Scanner sc = new Scanner(System.in);
+                String contaBenef = sc.next();
+                float valor = (float)57.80;
+                refServ.realizarTransferenciaCC(numConta, senha, valor, contaBenef, this);
+                System.out.println("\nDOC");
+                refServ.realizarTransferenciaDOC(numConta, senha, (float)11.02, 103, false, "12345678-9", this);
+                System.out.println("\nTED");
+                refServ.realizarTransferenciaTED(numConta, senha, (float)11.02, 103, false, "12345678-9", this);
+                
                 
             }else{   
                 System.out.println("Não foi possível cadastrar a nova conta");
@@ -105,9 +120,9 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         try{
             if(contaCli.getTipoConta()==013)
-                System.out.println("Conta poupança");
-            else System.out.println("Conta corrente");
-            System.out.println("Seu saldo é de: " + saldo);
+                System.out.println("Conta poupança:");
+            else System.out.println("Conta corrente:");
+            System.out.println("Seu saldo é de: R$" + saldo);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -123,11 +138,21 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }
     }
 
+    
+    @Override
+    public void notifTransferencia(String msg) throws RemoteException
+    {
+        try{
+            System.out.println(msg);
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }    }
+    
     @Override
     public void ReceberSaque(float valor) throws RemoteException
     {
         try{
-
+            System.out.println("\nVocê realizou um saque de R$" + valor);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -137,10 +162,51 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public void retDepositar(float valor) throws RemoteException
     {
         try{
-
+            System.out.println("\nNotificação automática:");
+            System.out.println("Foi depositado em sua conta um valor de R$" + valor);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+    }
+
+    @Override
+    public void contaInexistente() throws RemoteException
+    {
+        try{
+            System.out.println("\nNúmero da conta inexistente, tente novamente ou consulte o seu gerente.");
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }    
+    }
+
+    @Override
+    public void senhaIncorreta() throws RemoteException
+    {
+        try{
+            System.out.println("\nSenha incorreta, tente novamente.");
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }    
+    }
+
+    @Override
+    public void saldoInsuficiente() throws RemoteException
+    {
+        try{
+            System.out.println("\nSaldo insuficiente, não foi possível realizar a operação.");
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }       
+    }
+
+    @Override
+    public void msgServer(String msg) throws RemoteException
+    {
+        try{
+            System.out.println(msg);
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }     
     }
     
 }
