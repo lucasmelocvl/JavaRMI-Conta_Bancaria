@@ -144,7 +144,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                                 beneficiario.setSaldo(beneficiario.getSaldo() + valor);
                                 conta.setSaldo(saldoFuturo);
                                 String msg = "Transferencia realizada com sucesso para a"
-                                        + "conta nº"+contaBenef+" no valor de R$"+valor+".";
+                                        + "conta nº"+contaBenef+" no valor de R$."+valor+".";
                                 ref.notifTransferencia(msg);
                                 conta.getNumConta();
                                 if(beneficiario.isReceberNotif()){
@@ -160,7 +160,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                             }
                         }else{
                             String msg = "Conta de beneficiário incorreta.\n"
-                                    + "Verifique se o beneficiário possui conta-corrente"
+                                    + "Verifique se o beneficiário possui conta-corrente "
                                     + "ou poupança.";
                             ref.msgServer(msg);
                         }
@@ -312,7 +312,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                             beneficiario.setNumConta(contaBenef);
                             beneficiario.setSaldo(beneficiario.getSaldo() + valor);
                             conta.setSaldo(saldoFuturo);
-                            String msg = "Transferencia realizada com sucesso para a"
+                            String msg = "Transferencia realizada com sucesso para a "
                                         + "conta nº"+contaBenef+" no valor de R$"+valor+".";
                             ref.notifTransferencia(msg);
                         }catch(Exception e){

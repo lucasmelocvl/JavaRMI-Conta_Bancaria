@@ -45,8 +45,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     {
         nomeCli = nome;
         senhaCli = senha;
-        numConta = "12345678-9";
-        //numConta = this.gerarNumConta();
+        numConta = this.gerarNumConta();
         if(poupanca)
             tipoConta = 013;
         else
