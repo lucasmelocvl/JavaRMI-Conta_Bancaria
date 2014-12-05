@@ -23,6 +23,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     private int tipoConta;
     private int numAgencia;
     private String nomeBanco;
+    private int numBanco;
     private float saldo;
     private boolean receberNotif;
     private final InterfaceCli refCli;
@@ -44,10 +45,15 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     {
         nomeCli = nome;
         senhaCli = senha;
-        numConta = this.gerarNumConta();
-        if(poupanca)tipoConta = 013;
+        numConta = "12345678-9";
+        //numConta = this.gerarNumConta();
+        if(poupanca)
+            tipoConta = 013;
+        else
+            tipoConta = 001;
         numAgencia = 306;
         nomeBanco = "Uncle Scrooge Bank";
+        numBanco = 171;
         saldo = (float) 0.0;
         if(receberNotificacao)receberNotif = true;
         refCli = ref;
@@ -217,17 +223,23 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
             throw new UnsupportedOperationException("Not supported yet.");
         }    
     }
+    
+    @Override
+    public void setNomeBanco(String nomeBanco) throws RemoteException
+    {
+        this.nomeBanco = nomeBanco;
+    }
 
     @Override
-    public void setNomeBanco(String banco) throws RemoteException
+    public int getNumBanco() throws RemoteException
     {
-        try
-        {
-            nomeCli = banco;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return numBanco;
+    }
+
+    @Override
+    public void setNumBanco(int numBanco) throws RemoteException
+    {
+        this.numBanco = numBanco;
     }
 
     @Override
@@ -276,6 +288,18 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }    
+    }
+
+    @Override
+    public InterfaceCli getRefCli()  throws RemoteException
+    {
+        try
+        {
+            return refCli;
+        }catch(UnsupportedOperationException e)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }       
     }
     
 }
