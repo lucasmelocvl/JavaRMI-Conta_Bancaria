@@ -22,31 +22,33 @@ import javarmi.conta_bancaria.interfaces.InterfaceServ;
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
 
     public static MapContas contas;
-    InterfaceCli refCli;
-    ContaImpl contaCli;
     
     public ServImpl() throws RemoteException, AlreadyBoundException
     {
-        //Cria o registro para receber as referencias, para a porta 1099, local
-        Registry referenciaServicoNome = LocateRegistry.createRegistry(1099);
-        
-        //A classe é associada a um nome para ser acessado externamente
-        //(Registra uma referencia de objeto remoto)
-        referenciaServicoNome.rebind("Conta Bancária", this);
-        
-        //Inicia o mapa hash de contas
-        contas = new MapContas();
-        
-        System.out.println("Serviços bancárias iniciados..\n");
+        try{
+            //Cria o registro para receber as referencias, para a porta 1099, local
+            Registry referenciaServicoNome = LocateRegistry.createRegistry(1099);
+
+            //A classe é associada a um nome para ser acessado externamente
+            //(Registra uma referencia de objeto remoto)
+            referenciaServicoNome.rebind("Conta Bancária", this);
+
+            //Inicia o mapa hash de contas
+            contas = new MapContas();
+
+            System.out.println("Serviços bancárias iniciados..\n");
+        }catch(RemoteException e){
+            System.out.println(e.getMessage());
+        }
         
     }
 
     @Override
-    public void criarConta(String nome, String senha, InterfaceCli ref) throws RemoteException
+    public void criarConta(String nome, String senha, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
         try{
-            refCli = ref;
-            contaCli = new ContaImpl(nome, senha, ref);
+            InterfaceCli refCli = ref;
+            ContaImpl contaCli = new ContaImpl(nome, senha, poupanca, receberNotificacao, ref);
             InterfaceConta refConta = (InterfaceConta) contaCli;
             refCli.retConta(true, refConta);
         }catch(UnsupportedOperationException e){
@@ -55,18 +57,17 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public float consultarSaldo(InterfaceCli ref) throws RemoteException
+    public void consultarSaldo(String nome, String senha, InterfaceCli ref) throws RemoteException
     {
         try{
-            ref.exibirSaldo(contaCli.getSaldo());
+            //ref.exibirSaldo(contaCli.getSaldo());
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-        return (float) 0.0;
     }
 
     @Override
-    public void realizarTransferencia(double valor, InterfaceCli ref) throws RemoteException
+    public void realizarTransferencia(String nome, String senha, double valor, InterfaceCli ref) throws RemoteException
     {
         try{
             
@@ -76,7 +77,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public void sacar(double valor, InterfaceCli ref) throws RemoteException
+    public void sacar(String nome, String senha, double valor, InterfaceCli ref) throws RemoteException
     {
         try{
             
@@ -89,6 +90,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     public void depositar(double valor, InterfaceCli ref) throws RemoteException
     {
         try{
+            //ref.retDepositar(valor);
             
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

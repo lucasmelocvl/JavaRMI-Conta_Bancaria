@@ -20,41 +20,48 @@ public interface InterfaceServ extends Remote{
      * Cria a conta para um novo cliente.
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
+     * @param poupanca true se for conta poupança, false se for conta corrente.
+     * @param receberNotificacao true se o cliente quiser receber notificações.
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void criarConta(String nome, String senha, InterfaceCli ref) throws RemoteException;
+    public void criarConta(String nome, String senha, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException;
     
     /**
      * Realiza a consulta de saldo do cliente.
      * Através dessa funcao o cliente poderá consultar seu saldo da conta
      * corrente, e seu saldo da poupança. A diferenciação dos tipos de conta
      * é realizada pelo valor do parametro passado.
+     * @param numConta Numero da conta do cliente.
+     * @param senha Senha do cliente.
      * @param ref Referencia do cliente.
-     * @return saldo do cliente.
      * @throws RemoteException 
      */
-    public float consultarSaldo(InterfaceCli ref) throws RemoteException;
+    public void consultarSaldo(String numConta, String senha,InterfaceCli ref) throws RemoteException;
     
     
     /**
      * Realizar transferencia.
      * Ao chamar essa função, o servidor retorna em tela as demais opções para
      * transferência.
+     * @param numConta Numero da conta do cliente.
+     * @param senha Senha do cliente.
      * @param valor a ser transferido.
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void realizarTransferencia(double valor, InterfaceCli ref) throws RemoteException;
+    public void realizarTransferencia(String numConta, String senha, double valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Sacar.
      * O cliente realiza o saque no valor do parâmetro passado.
+     * @param numConta Numero da conta do cliente.
+     * @param senha Senha do cliente.
      * @param valor Valor a ser sacado.
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void sacar(double valor, InterfaceCli ref) throws RemoteException;
+    public void sacar(String numConta, String senha, double valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Depositar.

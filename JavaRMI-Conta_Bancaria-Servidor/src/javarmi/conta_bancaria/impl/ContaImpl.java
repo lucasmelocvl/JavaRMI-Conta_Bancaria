@@ -6,14 +6,10 @@
 
 package javarmi.conta_bancaria.impl;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.Map;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
 import javarmi.conta_bancaria.interfaces.InterfaceConta;
-import oracle.jrockit.jfr.tools.ConCatRepository;
 
 /**
  *
@@ -31,36 +27,60 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     private boolean receberNotif;
     private final InterfaceCli refCli;
     
-    
-    public ContaImpl(String nome, String senha, InterfaceCli ref) throws RemoteException{
+    /**
+     * Conta Impl.
+     * Construtor, cria nova conta do cliente ao ser instaciada.
+     * Instancia os dados da nova conta do cliente e insere na hashMap 
+     * de contas, a nova conta.
+     * @param nome Nome do cliente.
+     * @param senha Senha do cliente.
+     * @param poupanca true se for poupança.
+     * @param receberNotificacao true se o cliente quiser receber notificações.
+     * @param ref Interface do cliente.
+     * @throws RemoteException 
+     */
+    public ContaImpl(String nome, String senha, boolean poupanca, 
+            boolean receberNotificacao, InterfaceCli ref) throws RemoteException
+    {
         nomeCli = nome;
         senhaCli = senha;
         numConta = this.gerarNumConta();
-        tipoConta = 013;
+        if(poupanca)tipoConta = 013;
         numAgencia = 306;
-        nomeBanco = "Tio patinhas";
+        nomeBanco = "Uncle Scrooge Bank";
+        saldo = (float) 0.0;
+        if(receberNotificacao)receberNotif = true;
         refCli = ref;
         
         ServImpl.contas.inserirConta(numConta, this);
         
-        System.out.println("Novo cliente cadastrado: " + nomeCli + "\n");
+        System.out.println("Novo cliente cadastrado: " + nomeCli);
+        System.out.println("Conta nº: " + numConta);
         
-        ContaImpl contaMap = ServImpl.contas.recuperarConta(numConta);
-        
-        System.out.println(contaMap.getSenhaCli());
+        //ContaImpl contaMap = ServImpl.contas.recuperarConta(numConta);
+        //System.out.println(contaMap.getSenhaCli());
     }
 
     /**
      * Gerar numero de conta.
      * Gera um novo numero de conta.
-     * @return numeroConta Numero da conta do cliente
-     * @throws RemoteException 
+     * Considera-se que já exista uma conta (contaExiste), para que entre no 
+     * loop do while, e enquanto não for gerado uma conta diferente das 
+     * existentes, é procurado por novos números de conta.
+     * @return numeroConta Numero da conta do cliente.
      */
-    public String gerarNumConta(){
+    public String gerarNumConta()
+    {
         String numeroConta = "";
         boolean contaExiste = true;
-        while(!contaExiste){
-            numeroConta = "120.362.623.1";
+        while(contaExiste){
+            for(int i=0; i<10;i++){
+                int number= (int) (0+Math.random()*9);
+                numeroConta += String.valueOf(number);
+                if(i==8){
+                    numeroConta += "-";
+                }
+            }
             contaExiste = ServImpl.contas.contaExiste(numeroConta);
         }
         return numeroConta;
@@ -74,7 +94,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
             return nomeCli;
         }catch(UnsupportedOperationException e)
         {
-                throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 

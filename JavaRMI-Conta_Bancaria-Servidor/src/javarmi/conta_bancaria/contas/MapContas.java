@@ -44,7 +44,8 @@ public class MapContas {
     }
     
     /**
-     * Conta Existe.
+     * Conta existe.
+     * Verifica se a conta existe.
      * @param numConta Numero da conta a ser checado.
      * @return boolean True se a conta existir.
      */
