@@ -35,6 +35,9 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         String nome;
         String senha;
+        boolean poupanca;
+        boolean receberNotificacao;
+        
         Scanner sc = new Scanner(System.in);
         
         try{
@@ -48,12 +51,15 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
             System.out.println("Senha: senha123");
             senha = "senha123";
 
+            poupanca = false;
+            receberNotificacao = false;
+            
             TelaInicial tela = new TelaInicial();
 
             //System.out.println("Senha: ");
             //senha = sc.nextLine();
             
-            refServ.criarConta(nome, senha, this);
+            refServ.criarConta(nome, senha, poupanca, receberNotificacao, this);
         }catch(RemoteException e){
             System.out.println(e.getMessage());
             System.out.println("Servidor bancário fora do ar!");
@@ -71,10 +77,15 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
                 String nome = contaCli.getNomeCliente();
                 String senha = contaCli.getSenhaCli();
                 String numConta = contaCli.getNumConta();
+                
                 System.out.println("Nome: " + nome + "");
                 System.out.println("Senha: " + senha + "");
                 System.out.println("Numero da conta: "+ numConta + "");
-                refServ.consultarSaldo(this);
+                
+                refServ.consultarSaldo(numConta, senha, this);
+                refServ.depositar(150.50, this);
+                refServ.consultarSaldo(numConta, senha, this);
+                
             }else{   
                 System.out.println("Não foi possível cadastrar a nova conta");
             }
@@ -93,8 +104,10 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public void exibirSaldo(float saldo) throws RemoteException
     {
         try{
+            if(contaCli.getTipoConta()==013)
+                System.out.println("Conta poupança");
+            else System.out.println("Conta corrente");
             System.out.println("Seu saldo é de: " + saldo);
-            refServ.depositar(150.50, this);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
