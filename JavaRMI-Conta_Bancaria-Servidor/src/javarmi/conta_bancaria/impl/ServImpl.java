@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javarmi.conta_bancaria.contas.MapContas;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
 import javarmi.conta_bancaria.interfaces.InterfaceConta;
@@ -45,12 +47,12 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public boolean criarConta(String nome, String senha, String numConta, int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException
+    public boolean criarConta(String nome, String senha, String numConta, String numAgencia,int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
         try{
             InterfaceCli refCli = ref;
             ContaImpl contaCli = new ContaImpl();
-            boolean ret = contaCli.criarConta(nome, senha, numConta, banco, poupanca, receberNotificacao, ref);
+            boolean ret = contaCli.criarConta(nome, senha, numConta, numAgencia, banco, poupanca, receberNotificacao, ref);
             return ret;
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -58,55 +60,80 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public void consultarSaldo(String numConta, String senha, InterfaceCli ref) throws RemoteException
+    public float consultarSaldo(String numConta, String senha, InterfaceCli ref) throws RemoteException
     {
         try{
             ContaImpl conta = contas.recuperarConta(numConta);
             if(conta == null){
                 ref.contaInexistente();
             }else if(conta.getSenhaCli().equals(senha)){
-                ref.exibirSaldo(conta.getSaldo());
+                return conta.getSaldo();
             }else{
                 ref.senhaIncorreta();
             }
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+        return 0;
     }
 
     @Override
-    public void sacar(String numConta, String senha, float valor, InterfaceCli ref) throws RemoteException
+    public boolean sacar(String numConta, String senha, float valor, InterfaceCli ref) throws RemoteException
     {
         try{
             ContaImpl conta = contas.recuperarConta(numConta);
-            if(conta == null){
-                ref.contaInexistente();
-            }else if(conta.getSenhaCli().equals(senha)){
-                float saldoFuturo = conta.getSaldo() - valor;
-                if(saldoFuturo >= (float)0.0){
-                    conta.setSaldo(saldoFuturo);
-                    ref.ReceberSaque(valor);
-                }else{
-                    ref.saldoInsuficiente();
+            if(conta == null) return false;
+            if(!conta.getSenhaCli().equals(senha)) return false;
+            
+            int count = 0;
+            while (conta.isBloqueado() && count++ < 5){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                ref.senhaIncorreta();
             }
+            if(conta.isBloqueado()) return false;
+            
+            conta.setBloqueado(true);
+            
+            float saldoFuturo = conta.getSaldo() - valor;
+            if(saldoFuturo < (float)0.0){
+                return false;
+            }
+            conta.setSaldo(saldoFuturo);
+            conta.setBloqueado(false);
+            return true;
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
     @Override
-    public void depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException
+    public boolean depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException
     {
-        try{
+        try{            
             ContaImpl conta = contas.recuperarConta(numConta);
+            if(conta == null) return false;
+            
+            int count = 0;
+            while (conta.isBloqueado() && count++ < 5){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if(conta.isBloqueado()) return false;
+            
+            conta.setBloqueado(true);
             conta.setSaldo(conta.getSaldo() + valor);
             if(conta.isReceberNotif()){
                 InterfaceCli beneficiario = conta.getRefCli();
                 beneficiario.retDepositar(valor);
             }
+            conta.setBloqueado(false);
+            return true;
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }

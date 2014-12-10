@@ -21,6 +21,7 @@ public interface InterfaceServ extends Remote{
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
      * @param numConta
+     * @param numAgencia
      * @param banco
      * @param poupanca true se for conta poupança, false se for conta corrente.
      * @param receberNotificacao true se o cliente quiser receber notificações.
@@ -28,7 +29,7 @@ public interface InterfaceServ extends Remote{
      * @return True se a contar for criada com sucesso.
      * @throws RemoteException 
      */
-    public boolean criarConta(String nome, String senha, String numConta, int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException;
+    public boolean criarConta(String nome, String senha, String numConta, String numAgencia, int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException;
     
     /**
      * Realiza a consulta de saldo do cliente.
@@ -40,7 +41,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void consultarSaldo(String numConta, String senha, InterfaceCli ref) throws RemoteException;
+    public float consultarSaldo(String numConta, String senha, InterfaceCli ref) throws RemoteException;
     
     
     /**
@@ -112,7 +113,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void sacar(String numConta, String senha, float valor, InterfaceCli ref) throws RemoteException;
+    public boolean sacar(String numConta, String senha, float valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Depositar.
@@ -122,7 +123,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException;
+    public boolean depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException;
     
     /**
      * Registrar interesse nas movimentações.

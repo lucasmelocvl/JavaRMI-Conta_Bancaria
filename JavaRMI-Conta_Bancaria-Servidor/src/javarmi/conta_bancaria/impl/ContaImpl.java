@@ -21,12 +21,13 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     private String senhaCli;
     private String numConta;
     private int tipoConta;
-    private int numAgencia;
+    private String numAgencia;
     private String nomeBanco;
     private int numBanco;
     private float saldo;
     private boolean receberNotif;
     private InterfaceCli refCli;
+    private boolean bloqueado;
     
     public ContaImpl() throws RemoteException{
 
@@ -40,6 +41,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
      * @param NConta
+     * @param NAgencia
      * @param NBanco
      * @param poupanca true se for poupança.
      * @param receberNotificacao true se o cliente quiser receber notificações.
@@ -47,7 +49,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
      * @return True se a conta for criada com sucesso.
      * @throws RemoteException 
      */
-    public boolean criarConta(String nome, String senha, String NConta, int NBanco, boolean poupanca, 
+    public boolean criarConta(String nome, String senha, String NConta, String NAgencia, int NBanco, boolean poupanca, 
             boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
         nomeCli = nome;             //Nome do cliente
@@ -61,7 +63,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
             tipoConta = 013;        //Poupança
         else
             tipoConta = 001;        //Conta-corrente
-        numAgencia = 306;           //Número da agência
+        numAgencia = NAgencia;           //Número da agência
         nomeBanco = "Uncle Scrooge Bank";
         numBanco = NBanco;          //Número do banco
         saldo = (float) 0.0;
@@ -77,11 +79,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         
         System.out.println("Novo cliente cadastrado: " + nomeCli);
         System.out.println("Conta nº: " + numConta);
-        
         return true;
-        
-        //ContaImpl contaMap = ServImpl.contas.recuperarConta(numConta);
-        //System.out.println(contaMap.getSenhaCli());
     }
     
     /**
@@ -198,7 +196,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     }
 
     @Override
-    public int getNumAgencia() throws RemoteException
+    public String getNumAgencia() throws RemoteException
     {
         try
         {
@@ -210,7 +208,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     }
 
     @Override
-    public void setNumAgencia(int numeroAgencia) throws RemoteException
+    public void setNumAgencia(String numeroAgencia) throws RemoteException
     {
         try
         {
@@ -309,6 +307,22 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }       
+    }
+
+    /**
+     * @return the bloqueado
+     */
+    public boolean isBloqueado()
+    {
+        return bloqueado;
+    }
+
+    /**
+     * @param bloqueado the bloqueado to set
+     */
+    public void setBloqueado(boolean bloqueado)
+    {
+        this.bloqueado = bloqueado;
     }
     
 }
