@@ -17,17 +17,17 @@ import javarmi.conta_bancaria.interfaces.InterfaceConta;
  */
 public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
 
-    private String nomeCli;
-    private String senhaCli;
-    private String numConta;
-    private int tipoConta;
-    private String numAgencia;
-    private String nomeBanco;
-    private int numBanco;
-    private float saldo;
-    private boolean receberNotif;
-    private InterfaceCli refCli;
-    private boolean bloqueado;
+    private String nomeCli;             //Nome do cliente.
+    private String senhaCli;            //Senha do cliente.
+    private String numConta;            //Número da conta do cliente.
+    private int tipoConta;              //Poupanca ou corrente.
+    private String numAgencia;          //Numero da agência.
+    private String nomeBanco;           //Nome do banco.
+    private int numBanco;               //Número do banco.
+    private float saldo;                //Saldo do cliente.
+    private boolean receberNotif;       //Receber notificações.
+    private InterfaceCli refCli;        //Referência do cliente.
+    private boolean bloqueado;          //Flag de bloqueio.
     
     public ContaImpl() throws RemoteException{
 
@@ -52,20 +52,33 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     public boolean criarConta(String nome, String senha, String NConta, String NAgencia, int NBanco, boolean poupanca, 
             boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
-        nomeCli = nome;             //Nome do cliente
-        senhaCli = senha;           //Senha do cliente
+        nomeCli = nome;             
+        senhaCli = senha;         
         boolean contaNaoExiste = this.verifNumConta(NConta);
         if(!contaNaoExiste){        //Verifica se a conta informada já existe
             return false;
         }
-        numConta = NConta;          //Número da conta
+        numConta = NConta;          
         if(poupanca)
             tipoConta = 013;        //Poupança
         else
             tipoConta = 001;        //Conta-corrente
-        numAgencia = NAgencia;           //Número da agência
-        nomeBanco = "Uncle Scrooge Bank";
+        numAgencia = NAgencia;      
         numBanco = NBanco;          //Número do banco
+        switch(NBanco){
+            case 104:
+                nomeBanco = "Caixa Econômica Federal";
+                break;
+            case 356:
+                nomeBanco = "Banco Real S.A.";
+                break;
+            case 477:
+                nomeBanco = "Citibank S.A.";
+                break;
+            case 487:
+                nomeBanco = "Deutsche Bank S.A. - Banco Alemão ";
+                break;
+        }
         saldo = (float) 0.0;
         if(receberNotificacao){
             receberNotif = true;    //Se quiser receber notificação a ref é guardada

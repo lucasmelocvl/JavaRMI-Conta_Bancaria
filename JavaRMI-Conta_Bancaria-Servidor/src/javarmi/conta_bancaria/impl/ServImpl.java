@@ -19,7 +19,7 @@ import javarmi.conta_bancaria.interfaces.InterfaceServ;
 
 /**
  *
- * @author Lucas
+ * @author lucasmelocvl
  */
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
 

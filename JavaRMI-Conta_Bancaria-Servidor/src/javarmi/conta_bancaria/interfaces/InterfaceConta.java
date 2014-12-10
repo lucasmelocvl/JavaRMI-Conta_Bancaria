@@ -51,5 +51,5 @@ public interface InterfaceConta extends Remote{
     public void setReceberNotif(boolean notificacao) throws RemoteException;
 
     public InterfaceCli getRefCli() throws RemoteException;
-    
+
 }

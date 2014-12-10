@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
  * @author lucasmelocvl
  */
 public interface InterfaceCli extends Remote{
-    
+
     /**
      * Retorno do status da Conta.
      * Informa o cliente se sua conta foi criada com sucesso.
@@ -45,6 +45,7 @@ public interface InterfaceCli extends Remote{
      * toda a vez que for transferido um valor para a sua conta, o cliente é
      * notificado.
      * @param msg Mensagem do servidor.
+     * @throws java.rmi.RemoteException
      */
     public void notifTransferencia(String msg) throws RemoteException;
     

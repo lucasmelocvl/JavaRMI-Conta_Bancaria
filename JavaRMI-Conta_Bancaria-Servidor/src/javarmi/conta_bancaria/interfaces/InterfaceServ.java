@@ -20,9 +20,9 @@ public interface InterfaceServ extends Remote{
      * Cria a conta para um novo cliente.
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
-     * @param numConta
-     * @param numAgencia
-     * @param banco
+     * @param numConta Numero da conta.
+     * @param numAgencia Numero da agencia.
+     * @param banco Numero do banco.
      * @param poupanca true se for conta poupança, false se for conta corrente.
      * @param receberNotificacao true se o cliente quiser receber notificações.
      * @param ref Referencia do cliente.
@@ -39,6 +39,7 @@ public interface InterfaceServ extends Remote{
      * @param numConta Numero da conta do cliente.
      * @param senha Senha do cliente.
      * @param ref Referencia do cliente.
+     * @return saldo disponível.
      * @throws RemoteException 
      */
     public float consultarSaldo(String numConta, String senha, InterfaceCli ref) throws RemoteException;
@@ -53,6 +54,7 @@ public interface InterfaceServ extends Remote{
      * @param valor a ser transferido.
      * @param contaBenef Numero da conta do beneficiário.
      * @param ref Referencia do cliente.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean realizarTransferenciaCC(String numConta, String senha, float valor,
@@ -67,6 +69,7 @@ public interface InterfaceServ extends Remote{
      * @param valor a ser transferido.
      * @param contaBenef Numero da conta do beneficiário.
      * @param ref Referencia do cliente.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean realizarTransferenciaCP(String numConta, String senha, float valor,
@@ -83,6 +86,7 @@ public interface InterfaceServ extends Remote{
      * @param poupanca True se for conta poupança.
      * @param contaBenef Numero da conta do beneficiário.
      * @param ref Referencia do cliente.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean realizarTransferenciaDOC(String numConta, String senha, float valor,
@@ -99,6 +103,7 @@ public interface InterfaceServ extends Remote{
      * @param poupanca True se for conta poupança.
      * @param contaBenef Numero da conta do beneficiário.
      * @param ref Referencia do cliente.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean realizarTransferenciaTED(String numConta, String senha, float valor,
@@ -111,6 +116,7 @@ public interface InterfaceServ extends Remote{
      * @param senha Senha do cliente.
      * @param valor Valor a ser sacado.
      * @param ref Referencia do cliente.
+     * @return true se o saque for realizado com sucesso.
      * @throws RemoteException 
      */
     public boolean sacar(String numConta, String senha, float valor, InterfaceCli ref) throws RemoteException;
@@ -121,6 +127,7 @@ public interface InterfaceServ extends Remote{
      * @param numConta Numero da conta do cliente.
      * @param valor Valor do depósito
      * @param ref Referencia do cliente.
+     * @return true se o depósito for realizado com sucesso.
      * @throws RemoteException 
      */
     public boolean depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException;
@@ -135,7 +142,7 @@ public interface InterfaceServ extends Remote{
      * @throws RemoteException 
      */
     public void registrarInteresse(String numConta, String senha, InterfaceCli ref) throws RemoteException;
-        
+
     /**
      * Validar usuário.
      * Realiza a validação de um usuário.
@@ -143,6 +150,8 @@ public interface InterfaceServ extends Remote{
      * @param senhaCli Senha do cliente.
      * @param ref Referencia do cliente.
      * @return True se os dados estiverem corretos.
+     * @throws java.rmi.RemoteException
      */
     public boolean validarUsuario(String numConta, String senhaCli, InterfaceCli ref) throws RemoteException;
+    
 }

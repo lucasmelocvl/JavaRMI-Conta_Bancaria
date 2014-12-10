@@ -16,7 +16,7 @@ import javarmi.conta_bancaria.impl.ContaImpl;
  */
 public class MapContas {
     
-    public Map<String, ContaImpl> contas;
+    public Map<String, ContaImpl> contas;   //HashMap que possuirá todas as contas.
     
     public MapContas(){
         contas = new HashMap<String, ContaImpl>();
