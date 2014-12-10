@@ -8,6 +8,7 @@ package javarmi.conta_bancaria.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import javarmi.conta_bancaria.impl.CliImpl;
 
 /**
  *
@@ -132,5 +133,4 @@ public interface InterfaceServ extends Remote{
      */
     public void registrarInteresse(String numConta, String senha, InterfaceCli ref) throws RemoteException;
     
-        
 }

@@ -11,7 +11,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
 /**
  *
  * @author lucasmelocvl
@@ -28,7 +27,8 @@ public class JavaRMIConta_BancariaCliente
     {
         Registry referenciaServicoNomes;
         referenciaServicoNomes = LocateRegistry.getRegistry("localhost", 1099);
-        CliImpl Cliente = new CliImpl(referenciaServicoNomes);
+        CliImpl cliente = new CliImpl();
+        cliente.receberRefServ(referenciaServicoNomes);
     }
     
 }
