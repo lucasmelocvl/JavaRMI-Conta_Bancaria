@@ -54,8 +54,13 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         nomeBanco = "Uncle Scrooge Bank";
         numBanco = 171;
         saldo = (float) 0.0;
-        if(receberNotificacao)receberNotif = true;
-        refCli = ref;
+        if(receberNotificacao){
+            receberNotif = true;
+            refCli = ref;
+        }else{
+            receberNotif = false;
+            refCli = null;
+        }
         
         ServImpl.contas.inserirConta(numConta, this);
         

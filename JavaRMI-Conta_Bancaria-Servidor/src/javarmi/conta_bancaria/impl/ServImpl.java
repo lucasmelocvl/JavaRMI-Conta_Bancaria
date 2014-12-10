@@ -143,19 +143,23 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                             try{
                                 beneficiario.setSaldo(beneficiario.getSaldo() + valor);
                                 conta.setSaldo(saldoFuturo);
-                                String msg = "Transferencia realizada com sucesso para a"
-                                        + "conta nº"+contaBenef+" no valor de R$."+valor+".";
+                                String msg = "Transferencia realizada com sucesso para a "
+                                        + "conta nº"+contaBenef+" no valor de R$"+valor+".";
+                                System.out.println("fora do if");
+                                System.out.println(beneficiario.isReceberNotif());
                                 ref.notifTransferencia(msg);
-                                conta.getNumConta();
-                                if(beneficiario.isReceberNotif()){
+                                //if(beneficiario.isReceberNotif()){
+                                    System.out.println("dentro do if");
                                     String msg2 = "Notificação automática:"
                                             + "Foi realizado uma transferência para sua "
                                             + "conta no valor de R$"+valor+" pela conta nº"
                                             + conta.getNumConta()+".";
                                     InterfaceCli refBenef = beneficiario.getRefCli();
                                     refBenef.notifTransferencia(msg2);
-                                }
+                                //}
+                                
                             }catch(Exception e){
+                                System.out.println("errooooooooo");
                                 System.out.println(e.getMessage());
                             }
                         }else{
@@ -197,7 +201,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                             try{
                                 beneficiario.setSaldo(beneficiario.getSaldo() + valor);
                                 conta.setSaldo(saldoFuturo);
-                                String msg = "Transferencia realizada com sucesso para a"
+                                String msg = "Transferencia realizada com sucesso para a "
                                         + "conta nº"+contaBenef+" no valor de R$"+valor+".";
                                 ref.notifTransferencia(msg);
                                 conta.getNumConta();
@@ -337,6 +341,5 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
-    
     
 }

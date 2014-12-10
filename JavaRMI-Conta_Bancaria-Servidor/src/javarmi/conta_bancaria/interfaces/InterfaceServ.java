@@ -131,6 +131,5 @@ public interface InterfaceServ extends Remote{
      * @throws RemoteException 
      */
     public void registrarInteresse(String numConta, String senha, InterfaceCli ref) throws RemoteException;
-    
         
 }
