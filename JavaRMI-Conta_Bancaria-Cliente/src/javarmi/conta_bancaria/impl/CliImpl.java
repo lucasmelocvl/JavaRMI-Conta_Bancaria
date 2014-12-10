@@ -35,8 +35,6 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public boolean isPoupanca;
     public boolean isRecebNotif;
     public int banco;
-    public float valor;
-    public String contaBenef;
     
     InterfaceServ refServ;
     InterfaceConta contaCli;
@@ -101,10 +99,62 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza a solicitação do saldo.
+     * @param valor
+     * @return 
      * @throws RemoteException 
      */
     public boolean sacar(float valor) throws RemoteException{
         boolean ret = refServ.sacar(numConta, senhaCli, valor, this);
+        return ret;
+    }
+    
+    /**
+     * Realiza transferencia para conta-corrente.
+     * @return
+     * @throws RemoteException 
+     */
+    public boolean transferenciaCC(float valor, String contaBenef) throws RemoteException{
+        boolean ret = refServ.realizarTransferenciaCC(numConta, senhaCli, valor, contaBenef, this);
+        return ret;
+    }
+    
+    /**
+     * Realiza transferencia para conta poupança.
+     * @param valor
+     * @param contaBenef
+     * @return
+     * @throws RemoteException 
+     */
+    public boolean transferenciaCP(float valor, String contaBenef) throws RemoteException{
+        boolean ret = refServ.realizarTransferenciaCP(numConta, senhaCli, valor, contaBenef, this);
+        return ret;
+    }
+    
+    /**
+     * Realiza transferencia para conta-corrente.
+     * @param valor
+     * @param banco
+     * @param isPoupanca
+     * @param contaBenef
+     * @return
+     * @throws RemoteException 
+     */
+    public boolean transferenciaDOC(float valor, int banco, boolean isPoupanca, String contaBenef) throws RemoteException{
+        boolean ret = refServ.realizarTransferenciaDOC(numConta, senhaCli, valor, banco, isPoupanca, contaBenef, this);
+        return ret;
+    }
+    
+    /**
+     * Realiza transferencia para conta-corrente.
+     * @param valor
+     * @param banco
+     * @param isPoupanca
+     * @param contaBenef
+     * @return
+     * @throws RemoteException 
+     */
+    public boolean transferenciaTED(float valor, int banco, boolean isPoupanca, String contaBenef) throws RemoteException{
+        boolean ret = refServ.realizarTransferenciaTED(numConta, senhaCli, valor, banco, isPoupanca, contaBenef, this);
         return ret;
     }
     
@@ -142,7 +192,6 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         try{
             System.out.printf("\nVocê realizou um saque de R$%.2f\n", valor);
-            //this.esperarProxComando();
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -152,7 +201,7 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public void retDepositar(float valor) throws RemoteException
     {
         try{
-            String msg = "Notificação automática:" +
+            String msg = "Notificação automática:\n" +
             "Foi depositado em sua conta um valor de R$" + valor;
             System.out.println(msg);
             //JOptionPane.showMessageDialog(null, msg);
@@ -166,7 +215,8 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         try{
             String msg = "Número da conta inexistente, tente novamente ou consulte o seu gerente.";
-            JOptionPane.showMessageDialog(null, msg);
+            System.out.println(msg);
+            //JOptionPane.showMessageDialog(null, msg);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }    
@@ -177,7 +227,8 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         try{
             String msg = "Senha incorreta, tente novamente.";
-            JOptionPane.showMessageDialog(null, msg);
+            System.out.println(msg);
+            //JOptionPane.showMessageDialog(null, msg);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }    
@@ -188,7 +239,8 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     {
         try{
             String msg = "Saldo insuficiente, não foi possível realizar a operação.";
-            JOptionPane.showMessageDialog(null, msg);
+            System.out.println(msg);
+            //JOptionPane.showMessageDialog(null, msg);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }      
@@ -198,7 +250,8 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public void msgServer(String msg) throws RemoteException
     {
         try{
-            JOptionPane.showMessageDialog(null, msg);
+            System.out.println(msg);
+            //JOptionPane.showMessageDialog(null, msg);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }     

@@ -143,7 +143,7 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
 
     private void tedActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_tedActionPerformed
     {//GEN-HEADEREND:event_tedActionPerformed
-
+        new TED(cliImpl).setVisible(true);
     }//GEN-LAST:event_tedActionPerformed
 
     private void voltarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_voltarActionPerformed
@@ -153,17 +153,17 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
 
     private void paraContaCorrenteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_paraContaCorrenteActionPerformed
     {//GEN-HEADEREND:event_paraContaCorrenteActionPerformed
-        // TODO add your handling code here:
+        new ParaCorrente(cliImpl).setVisible(true);
     }//GEN-LAST:event_paraContaCorrenteActionPerformed
 
     private void paraPoupancaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_paraPoupancaActionPerformed
     {//GEN-HEADEREND:event_paraPoupancaActionPerformed
-        // TODO add your handling code here:
+        new ParaPoupanca(cliImpl).setVisible(true);
     }//GEN-LAST:event_paraPoupancaActionPerformed
 
     private void docActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_docActionPerformed
     {//GEN-HEADEREND:event_docActionPerformed
-        // TODO add your handling code here:
+        new DOC(cliImpl).setVisible(true);
     }//GEN-LAST:event_docActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
