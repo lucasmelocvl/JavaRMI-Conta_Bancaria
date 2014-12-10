@@ -55,7 +55,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void realizarTransferenciaCC(String numConta, String senha, float valor,
+    public boolean realizarTransferenciaCC(String numConta, String senha, float valor,
             String contaBenef, InterfaceCli ref) throws RemoteException;
     
      /**
@@ -69,7 +69,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void realizarTransferenciaCP(String numConta, String senha, float valor,
+    public boolean realizarTransferenciaCP(String numConta, String senha, float valor,
              String contaBenef, InterfaceCli ref) throws RemoteException;
     
     /**
@@ -85,7 +85,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void realizarTransferenciaDOC(String numConta, String senha, float valor,
+    public boolean realizarTransferenciaDOC(String numConta, String senha, float valor,
              int numBanco, boolean poupanca, String contaBenef, InterfaceCli ref) throws RemoteException;
     
         /**
@@ -101,7 +101,7 @@ public interface InterfaceServ extends Remote{
      * @param ref Referencia do cliente.
      * @throws RemoteException 
      */
-    public void realizarTransferenciaTED(String numConta, String senha, float valor,
+    public boolean realizarTransferenciaTED(String numConta, String senha, float valor,
              int numBanco, boolean poupanca, String contaBenef, InterfaceCli ref) throws RemoteException;
     
     /**
