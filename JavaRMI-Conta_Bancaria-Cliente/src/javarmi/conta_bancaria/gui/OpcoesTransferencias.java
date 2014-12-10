@@ -5,18 +5,24 @@
  */
 package javarmi.conta_bancaria.gui;
 
+import javarmi.conta_bancaria.impl.CliImpl;
+
 /**
  *
  * @author Lucas
  */
 public class OpcoesTransferencias extends javax.swing.JFrame {
 
+    CliImpl cliImpl;
+    
     /**
-     * Creates new form OpcoesTransferencias
+     * Creates new form OpcoesTransferencia
+     * @param cli
      */
-    public OpcoesTransferencias()
+    public OpcoesTransferencias(CliImpl cli)
     {
         initComponents();
+        cliImpl = cli;
     }
 
     /**
@@ -31,10 +37,11 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        paraContaCorrente = new javax.swing.JButton();
+        paraPoupanca = new javax.swing.JButton();
+        doc = new javax.swing.JButton();
+        ted = new javax.swing.JButton();
+        voltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,18 +49,48 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
 
         jLabel1.setText("Painel de transferências");
 
-        jButton1.setText("Para conta-corrente");
-
-        jButton2.setText("Para poupança");
-
-        jButton3.setText("DOC");
-
-        jButton4.setText("TED");
-        jButton4.addActionListener(new java.awt.event.ActionListener()
+        paraContaCorrente.setText("Para conta-corrente");
+        paraContaCorrente.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton4ActionPerformed(evt);
+                paraContaCorrenteActionPerformed(evt);
+            }
+        });
+
+        paraPoupanca.setText("Para poupança");
+        paraPoupanca.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                paraPoupancaActionPerformed(evt);
+            }
+        });
+
+        doc.setText("DOC");
+        doc.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                docActionPerformed(evt);
+            }
+        });
+
+        ted.setText("TED");
+        ted.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                tedActionPerformed(evt);
+            }
+        });
+
+        voltar.setText("Voltar");
+        voltar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                voltarActionPerformed(evt);
             }
         });
 
@@ -64,11 +101,12 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addGap(131, 131, 131)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paraContaCorrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paraPoupanca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(doc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ted, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(voltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(124, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
@@ -77,14 +115,16 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(paraContaCorrente)
                 .addGap(11, 11, 11)
-                .addComponent(jButton2)
+                .addComponent(paraPoupanca)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(doc)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addComponent(ted)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(voltar)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,54 +141,38 @@ public class OpcoesTransferencias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
-    {//GEN-HEADEREND:event_jButton4ActionPerformed
+    private void tedActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_tedActionPerformed
+    {//GEN-HEADEREND:event_tedActionPerformed
+
+    }//GEN-LAST:event_tedActionPerformed
+
+    private void voltarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_voltarActionPerformed
+    {//GEN-HEADEREND:event_voltarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_voltarActionPerformed
+
+    private void paraContaCorrenteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_paraContaCorrenteActionPerformed
+    {//GEN-HEADEREND:event_paraContaCorrenteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_paraContaCorrenteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OpcoesTransferencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OpcoesTransferencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OpcoesTransferencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OpcoesTransferencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void paraPoupancaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_paraPoupancaActionPerformed
+    {//GEN-HEADEREND:event_paraPoupancaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paraPoupancaActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run()
-            {
-                new OpcoesTransferencias().setVisible(true);
-            }
-        });
-    }
+    private void docActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_docActionPerformed
+    {//GEN-HEADEREND:event_docActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_docActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton doc;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton paraContaCorrente;
+    private javax.swing.JButton paraPoupanca;
+    private javax.swing.JButton ted;
+    private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
 }

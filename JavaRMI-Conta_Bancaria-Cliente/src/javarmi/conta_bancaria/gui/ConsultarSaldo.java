@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javarmi.conta_bancaria.impl.CliImpl;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,6 +65,13 @@ public class ConsultarSaldo extends javax.swing.JFrame {
         });
 
         confirmar.setText("Confirmar");
+        confirmar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                confirmarActionPerformed(evt);
+            }
+        });
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener()
@@ -136,20 +144,27 @@ public class ConsultarSaldo extends javax.swing.JFrame {
 
     private void numContaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_numContaActionPerformed
     {//GEN-HEADEREND:event_numContaActionPerformed
-        cliImpl.numConta = numConta.getText();
-        cliImpl.senhaCli = senha.getText();
-        try {
-            cliImpl.consultarSaldo();
-            this.setVisible(false);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_numContaActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cancelarActionPerformed
     {//GEN-HEADEREND:event_cancelarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_cancelarActionPerformed
+
+    private void confirmarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_confirmarActionPerformed
+    {//GEN-HEADEREND:event_confirmarActionPerformed
+        cliImpl.numConta = numConta.getText();
+        cliImpl.senhaCli = senha.getText();
+        try {
+            float valor = cliImpl.consultarSaldo();
+            String msg = "Seu saldo é de: R$"+valor;
+            JOptionPane.showMessageDialog(null, msg);
+            this.setVisible(false);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_confirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;

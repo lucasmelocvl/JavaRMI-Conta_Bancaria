@@ -147,23 +147,22 @@ public class OpcoesOperacoes extends javax.swing.JFrame {
 
     private void consultarSaldoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_consultarSaldoActionPerformed
     {//GEN-HEADEREND:event_consultarSaldoActionPerformed
-        boolean ret = false;
         new ConsultarSaldo(cliImpl).setVisible(true);
     }//GEN-LAST:event_consultarSaldoActionPerformed
 
     private void depositarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_depositarActionPerformed
     {//GEN-HEADEREND:event_depositarActionPerformed
-        // TODO add your handling code here:
+        new Depositar(cliImpl).setVisible(true);
     }//GEN-LAST:event_depositarActionPerformed
 
     private void transferenciaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_transferenciaActionPerformed
     {//GEN-HEADEREND:event_transferenciaActionPerformed
-        // TODO add your handling code here:
+        new OpcoesTransferencias(cliImpl).setVisible(true);
     }//GEN-LAST:event_transferenciaActionPerformed
 
     private void sacarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sacarActionPerformed
     {//GEN-HEADEREND:event_sacarActionPerformed
-        // TODO add your handling code here:
+        new Sacar(cliImpl).setVisible(true);
     }//GEN-LAST:event_sacarActionPerformed
 
     private void sairActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sairActionPerformed

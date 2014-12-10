@@ -5,18 +5,28 @@
  */
 package javarmi.conta_bancaria.gui;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javarmi.conta_bancaria.impl.CliImpl;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Lucas
  */
 public class Sacar extends javax.swing.JFrame {
 
+    CliImpl cliImpl;
+    
     /**
-     * Creates new form DOC
+     * Creates new form OpcoesTransferencia
+     * @param cli
      */
-    public Sacar()
+    public Sacar(CliImpl cli)
     {
         initComponents();
+        cliImpl = cli;
     }
 
     /**
@@ -31,10 +41,14 @@ public class Sacar extends javax.swing.JFrame {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        valorSaque = new javax.swing.JTextField();
+        confirmar = new javax.swing.JButton();
+        cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        conta = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        senha = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,47 +56,87 @@ public class Sacar extends javax.swing.JFrame {
 
         jLabel3.setText("Valor a ser sacado:");
 
-        jButton1.setText("Confirmar");
+        confirmar.setText("Confirmar");
+        confirmar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                confirmarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancelar");
+        cancelar.setText("Cancelar");
+        cancelar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                cancelarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Informe o valor a ser sacado:");
+
+        jLabel1.setText("Número da conta:");
+
+        conta.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                contaActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Senha:");
 
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(108, Short.MAX_VALUE)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(cancelar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(confirmar)
                         .addGap(104, 104, 104))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(113, 113, 113))))
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(valorSaque, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(conta)
+                    .addComponent(senha))
+                .addGap(45, 45, 45))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(jLabel6)
-                .addGap(76, 76, 76)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(73, 73, 73)
+                .addGap(47, 47, 47)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(61, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(conta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(valorSaque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(61, 61, 61)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelar)
+                    .addComponent(confirmar))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -102,64 +156,44 @@ public class Sacar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sacar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sacar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sacar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Sacar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void contaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_contaActionPerformed
+    {//GEN-HEADEREND:event_contaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contaActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run()
-            {
-                new Sacar().setVisible(true);
-            }
-        });
-    }
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cancelarActionPerformed
+    {//GEN-HEADEREND:event_cancelarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_cancelarActionPerformed
+
+    private void confirmarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_confirmarActionPerformed
+    {//GEN-HEADEREND:event_confirmarActionPerformed
+        cliImpl.numConta = conta.getText();
+        cliImpl.senhaCli = senha.getText();
+        String value = valorSaque.getText();
+        float valor = Float.parseFloat(value);
+        try {
+            boolean ret = cliImpl.sacar(valor);
+            String msg;
+            if(ret) msg = "Saque realizado com sucesso!";
+            else msg = "Lamentamos, não foi possível realizar operação.";
+            JOptionPane.showMessageDialog(null, msg);
+            this.setVisible(false);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_confirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton cancelar;
+    private javax.swing.JButton confirmar;
+    private javax.swing.JTextField conta;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField senha;
+    private javax.swing.JTextField valorSaque;
     // End of variables declaration//GEN-END:variables
 }

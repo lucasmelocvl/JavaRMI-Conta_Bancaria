@@ -11,6 +11,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javarmi.conta_bancaria.gui.CriarConta;
 import javarmi.conta_bancaria.gui.OpcoesOperacoes;
 import javarmi.conta_bancaria.gui.TempTela;
@@ -29,6 +31,7 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public String nomeCli;
     public String senhaCli;
     public String numConta;
+    public String numAgencia;
     public boolean isPoupanca;
     public boolean isRecebNotif;
     public int banco;
@@ -59,11 +62,12 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
      * Criar conta.
      * Cria uma nova conta para um cliente, enviando as informações
      * para o servidor.
+     * @return 
      * @throws java.rmi.RemoteException
      */
     public boolean criarConta() throws RemoteException
     {
-       boolean ret = refServ.criarConta(nomeCli, senhaCli, numConta, banco, isPoupanca, isRecebNotif, this);
+       boolean ret = refServ.criarConta(nomeCli, senhaCli, numConta, numAgencia, banco, isPoupanca, isRecebNotif, this);
        return ret;
     }
 
@@ -81,49 +85,39 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
      * Realiza a solicitação do saldo.
      * @throws RemoteException 
      */
-    public void consultarSaldo() throws RemoteException{
-        refServ.consultarSaldo(numConta, senhaCli, this);
+    public float consultarSaldo() throws RemoteException{
+        float saldo = refServ.consultarSaldo(numConta, senhaCli, this);
+        return saldo;
+    }
+    
+    /**
+     * Realiza a solicitação do saldo.
+     * @throws RemoteException 
+     */
+    public boolean depositar(float valor) throws RemoteException{
+        boolean ret = refServ.depositar(numConta, valor, this);
+        return ret;
+    }
+    
+    /**
+     * Realiza a solicitação do saldo.
+     * @throws RemoteException 
+     */
+    public boolean sacar(float valor) throws RemoteException{
+        boolean ret = refServ.sacar(numConta, senhaCli, valor, this);
+        return ret;
     }
     
     @Override
     public void retConta() throws RemoteException
     {
-        try{
-            System.out.println("\nSua conta foi criada com sucesso!"); 
-            nomeCli = contaCli.getNomeCliente();
-            senhaCli = contaCli.getSenhaCli();
-            numConta = contaCli.getNumConta();
-
-            String msg = 
-                "Conta criada com sucesso! \n" +
-                "Nome: " + nomeCli + "\n" +
-                "Senha: " + senhaCli + "\n" +
-                "Numero da conta: "+ numConta + "\n";
-            JOptionPane.showMessageDialog(null, msg);
-           /* contaCli = refConta;
-            String nomeCliente = contaCli.getNomeCliente();
-            String nomeBanco = contaCli.getNomeBanco();
-            String numConta = contaCli.getNumConta();
-            System.out.println("Conta do cliente " + nomeCliente + " criado com sucesso!"
-                    + "Nome do banco: " + nomeBanco + " e conta nº"+ numConta);*/
-        }catch(UnsupportedOperationException e){
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        
     }
 
     @Override
     public void exibirSaldo(float saldo) throws RemoteException
     {
-        String msg;
-        try{
-            if(contaCli.getTipoConta()==013)
-                msg = "\nConta poupança:";
-            else System.out.println("Conta corrente:");
-                msg = "Seu saldo é de: R$%.2f\n"+saldo;
-            JOptionPane.showMessageDialog(null, msg);
-        }catch(UnsupportedOperationException e){
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+
     }
 
     @Override
@@ -158,8 +152,10 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public void retDepositar(float valor) throws RemoteException
     {
         try{
-            System.out.println("\nNotificação automática:");
-            System.out.printf("Foi depositado em sua conta um valor de R$%.2f\n", valor);
+            String msg = "Notificação automática:" +
+            "Foi depositado em sua conta um valor de R$" + valor;
+            System.out.println(msg);
+            //JOptionPane.showMessageDialog(null, msg);
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }

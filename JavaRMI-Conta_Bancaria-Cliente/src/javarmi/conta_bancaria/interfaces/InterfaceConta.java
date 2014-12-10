@@ -30,9 +30,9 @@ public interface InterfaceConta extends Remote{
 
     public void setTipoConta(int tipoContaCli) throws RemoteException;
 
-    public int getNumAgencia() throws RemoteException;
+    public String getNumAgencia() throws RemoteException;
 
-    public void setNumAgencia(int numeroAgencia) throws RemoteException;
+    public void setNumAgencia(String numeroAgencia) throws RemoteException;
 
     public String getNomeBanco() throws RemoteException;
     
