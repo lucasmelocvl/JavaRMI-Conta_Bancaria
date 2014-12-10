@@ -7,20 +7,20 @@ package javarmi.conta_bancaria.gui;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javarmi.conta_bancaria.impl.CliImpl;
-import javarmi.conta_bancaria.interfaces.InterfaceConta;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Criar conta.
+ * Classe responsável por iniciar os serviços do cliente.
  * @author lucasmelocvl
  */
 public class CriarConta extends javax.swing.JFrame{
 
     CliImpl cliImpl;
-    InterfaceConta contaCli;
     String nomeCli;
     String senhaCli;
     String confirmSenhaCli;
@@ -67,11 +67,11 @@ public class CriarConta extends javax.swing.JFrame{
         senha = new javax.swing.JTextField();
         confirmSenha = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        numeroConta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         banco = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
-        agencia = new javax.swing.JTextField();
+        numeroConta = new javax.swing.JFormattedTextField();
+        agencia = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +108,22 @@ public class CriarConta extends javax.swing.JFrame{
 
         jLabel8.setText("Agência:");
 
+        try
+        {
+            numeroConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        try
+        {
+            agencia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
@@ -121,11 +137,11 @@ public class CriarConta extends javax.swing.JFrame{
                         .addGap(41, 41, 41)
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                         .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(banco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(30, 30, 30)
+                                        .addComponent(banco, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jInternalFrame1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
@@ -135,16 +151,16 @@ public class CriarConta extends javax.swing.JFrame{
                                     .addComponent(poupanca)
                                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(agencia))))
+                                        .addGap(18, 18, Short.MAX_VALUE)
+                                        .addComponent(agencia, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Confirmar)
                                     .addComponent(receberNotificacao)
                                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
-                                        .addGap(197, 197, 197)))
-                                .addGap(0, 4, Short.MAX_VALUE))
+                                        .addGap(197, 197, 197))
+                                    .addComponent(Confirmar))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
@@ -178,10 +194,10 @@ public class CriarConta extends javax.swing.JFrame{
                 .addGap(14, 14, 14)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
+                    .addComponent(numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(poupanca)
                     .addComponent(jLabel7)
@@ -220,7 +236,7 @@ public class CriarConta extends javax.swing.JFrame{
         numBanco = Integer.parseInt(bank);
                                 
         if(nomeCli.equals("") || senhaCli.equals("") || confirmSenhaCli.equals("") || 
-                numConta.equals("") || numAgencia.equals(""))
+                numConta.equals("   .   - ") || numAgencia.equals("   "))
         {
             String msg = "Por favor, preencha todos os campos.";
             JOptionPane.showMessageDialog(null, msg);
@@ -279,7 +295,7 @@ public class CriarConta extends javax.swing.JFrame{
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Confirmar;
-    private javax.swing.JTextField agencia;
+    private javax.swing.JFormattedTextField agencia;
     private javax.swing.JComboBox banco;
     private javax.swing.JTextField confirmSenha;
     private javax.swing.JInternalFrame jInternalFrame1;
@@ -292,7 +308,7 @@ public class CriarConta extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nome;
-    private javax.swing.JTextField numeroConta;
+    private javax.swing.JFormattedTextField numeroConta;
     private javax.swing.JCheckBox poupanca;
     private javax.swing.JCheckBox receberNotificacao;
     private javax.swing.JTextField senha;

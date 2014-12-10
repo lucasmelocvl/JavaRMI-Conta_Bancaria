@@ -10,22 +10,15 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javarmi.conta_bancaria.gui.CriarConta;
-import javarmi.conta_bancaria.gui.OpcoesOperacoes;
-import javarmi.conta_bancaria.gui.TempTela;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
-import javarmi.conta_bancaria.interfaces.InterfaceConta;
 import javarmi.conta_bancaria.interfaces.InterfaceServ;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Implementação do cliente.
+ * Classe responsável por implementar a InterfaceCli.
  * @author lucasmelocvl
  */
-
 public class CliImpl extends UnicastRemoteObject implements InterfaceCli
 {
     public String nomeCli;
@@ -37,10 +30,6 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     public int banco;
     
     InterfaceServ refServ;
-    InterfaceConta contaCli;
-    
-    //Scanner sc = new Scanner(System.in);
-    //TempTela tela;
     
     public CliImpl() throws RemoteException, NotBoundException{
         Registry referenciaServicoNomes;
@@ -81,6 +70,7 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza a solicitação do saldo.
+     * @return saldo disponível.
      * @throws RemoteException 
      */
     public float consultarSaldo() throws RemoteException{
@@ -90,6 +80,8 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza a solicitação do saldo.
+     * @param valor valor a ser depositado.
+     * @return true se o depósito for realizado com sucesso.
      * @throws RemoteException 
      */
     public boolean depositar(float valor) throws RemoteException{
@@ -100,7 +92,7 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     /**
      * Realiza a solicitação do saldo.
      * @param valor
-     * @return 
+     * @return true se o saque for realizado com sucesso.
      * @throws RemoteException 
      */
     public boolean sacar(float valor) throws RemoteException{
@@ -110,7 +102,9 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza transferencia para conta-corrente.
-     * @return
+     * @param valor Valor a ser transferido.
+     * @param contaBenef Conta do beneficiário.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean transferenciaCC(float valor, String contaBenef) throws RemoteException{
@@ -120,9 +114,9 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza transferencia para conta poupança.
-     * @param valor
-     * @param contaBenef
-     * @return
+     * @param valor Valor a ser transferido.
+     * @param contaBenef Conta do beneficiário.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean transferenciaCP(float valor, String contaBenef) throws RemoteException{
@@ -132,11 +126,11 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza transferencia para conta-corrente.
-     * @param valor
-     * @param banco
-     * @param isPoupanca
-     * @param contaBenef
-     * @return
+     * @param valor Valor a ser transferido.
+     * @param banco Numero do banco do beneficiário.
+     * @param isPoupanca true se for conta poupança.
+     * @param contaBenef Número da conta do beneficiário.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean transferenciaDOC(float valor, int banco, boolean isPoupanca, String contaBenef) throws RemoteException{
@@ -146,47 +140,39 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
     
     /**
      * Realiza transferencia para conta-corrente.
-     * @param valor
-     * @param banco
-     * @param isPoupanca
-     * @param contaBenef
-     * @return
+     * @param valor Valor a ser transferido.
+     * @param banco Numero do banco do beneficiário.
+     * @param isPoupanca true se for conta poupança.
+     * @param contaBenef Número da conta do beneficiário.
+     * @return true se a transferência for realizada com sucesso.
      * @throws RemoteException 
      */
     public boolean transferenciaTED(float valor, int banco, boolean isPoupanca, String contaBenef) throws RemoteException{
         boolean ret = refServ.realizarTransferenciaTED(numConta, senhaCli, valor, banco, isPoupanca, contaBenef, this);
         return ret;
     }
-    
-    @Override
-    public void retConta() throws RemoteException
-    {
-        
-    }
-
-    @Override
-    public void exibirSaldo(float saldo) throws RemoteException
-    {
-
-    }
-
-    @Override
-    public void retTransferencia(boolean status) throws RemoteException
-    {
-        try{
-
-        }catch(UnsupportedOperationException e){
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    }
-
-    
+       
+    /**
+     * Notificação de transferência.
+     * Se o cliente estiver habilitado para receber notificações automáticas,
+     * toda a vez que for transferido um valor para a sua conta, o cliente é
+     * notificado.
+     * @param msg Mensagem do servidor.
+     * @throws java.rmi.RemoteException
+     */
     @Override
     public void notifTransferencia(String msg) throws RemoteException
     {
         System.out.println(msg); 
     }
     
+    /**
+     * Receber saque.
+     * É exibido na tela o saque, caso ele tenha sido realizado, simulando o
+     * recebimento do valor sacado.
+     * @param valor Valor sacado.
+     * @throws RemoteException 
+     */
     @Override
     public void ReceberSaque(float valor) throws RemoteException
     {
@@ -197,6 +183,12 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }
     }
 
+    /**
+     * Retorno do depósito.
+     * É informado ao cliente se o depósito foi executada com sucesso.
+     * @param valor Valor que foi depositado.
+     * @throws RemoteException 
+     */
     @Override
     public void retDepositar(float valor) throws RemoteException
     {
@@ -210,6 +202,11 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }
     }
 
+    /**
+     * Conta inexistente.
+     * Retorna uma mensagem informando que a conta não existe.
+     * @throws RemoteException 
+     */
     @Override
     public void contaInexistente() throws RemoteException
     {
@@ -222,6 +219,11 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }    
     }
 
+    /**
+     * Senha incorreta.
+     * Retorna uma mensangem informando que a senha é incorreta.
+     * @throws RemoteException 
+     */
     @Override
     public void senhaIncorreta() throws RemoteException
     {
@@ -234,6 +236,12 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }    
     }
 
+    /**
+     * Saldo insuficiente.
+     * Retorna uma mensangem informando que o saldo é insuficiente para realizar
+     * a operação.
+     * @throws RemoteException 
+     */
     @Override
     public void saldoInsuficiente() throws RemoteException
     {
@@ -246,6 +254,12 @@ public class CliImpl extends UnicastRemoteObject implements InterfaceCli
         }      
     }
 
+    /**
+     * Mensagem do servidor.
+     * Retorna para o cliente uma mensangem disparada pelo servidor.
+     * @param msg Mensagem.
+     * @throws RemoteException 
+     */
     @Override
     public void msgServer(String msg) throws RemoteException
     {

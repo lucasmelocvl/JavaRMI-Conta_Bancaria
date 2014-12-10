@@ -10,7 +10,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- *
+ * Interface do Servidor.
  * @author lucasmelocvl
  */
 public interface InterfaceServ extends Remote{
@@ -131,17 +131,6 @@ public interface InterfaceServ extends Remote{
      * @throws RemoteException 
      */
     public boolean depositar(String numConta, float valor, InterfaceCli ref) throws RemoteException;
-    
-    /**
-     * Registrar interesse nas movimentações.
-     * O cliente registra interesse, especificamente, nas movimentações
-     * de saque e depósito.
-     * @param numConta Numero da conta do cliente.
-     * @param senha Senha do cliente.
-     * @param ref Referencia do cliente.
-     * @throws RemoteException 
-     */
-    public void registrarInteresse(String numConta, String senha, InterfaceCli ref) throws RemoteException;
 
     /**
      * Validar usuário.

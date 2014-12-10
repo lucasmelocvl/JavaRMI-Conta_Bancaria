@@ -42,11 +42,11 @@ public class ConsultarSaldo extends javax.swing.JFrame {
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        numConta = new javax.swing.JTextField();
         confirmar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         senha = new javax.swing.JTextField();
+        conta = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,14 +55,6 @@ public class ConsultarSaldo extends javax.swing.JFrame {
         jLabel1.setText("Número da conta:");
 
         jLabel2.setText("Senha:");
-
-        numConta.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                numContaActionPerformed(evt);
-            }
-        });
 
         confirmar.setText("Confirmar");
         confirmar.addActionListener(new java.awt.event.ActionListener()
@@ -84,10 +76,22 @@ public class ConsultarSaldo extends javax.swing.JFrame {
 
         jLabel3.setText("Confime seus dados");
 
+        try
+        {
+            conta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(139, 139, 139))
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,23 +104,19 @@ public class ConsultarSaldo extends javax.swing.JFrame {
                         .addComponent(cancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(numConta, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                    .addComponent(conta)
                     .addComponent(confirmar)
-                    .addComponent(senha))
+                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(139, 139, 139))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(jLabel3)
-                .addGap(67, 67, 67)
+                .addGap(64, 64, 64)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(numConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(conta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -125,7 +125,7 @@ public class ConsultarSaldo extends javax.swing.JFrame {
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(confirmar))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,11 +142,6 @@ public class ConsultarSaldo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void numContaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_numContaActionPerformed
-    {//GEN-HEADEREND:event_numContaActionPerformed
-
-    }//GEN-LAST:event_numContaActionPerformed
-
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cancelarActionPerformed
     {//GEN-HEADEREND:event_cancelarActionPerformed
         this.setVisible(false);
@@ -154,26 +149,41 @@ public class ConsultarSaldo extends javax.swing.JFrame {
 
     private void confirmarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_confirmarActionPerformed
     {//GEN-HEADEREND:event_confirmarActionPerformed
-        cliImpl.numConta = numConta.getText();
+        cliImpl.numConta = conta.getText();
         cliImpl.senhaCli = senha.getText();
-        try {
-            float valor = cliImpl.consultarSaldo();
-            String msg = "Seu saldo é de: R$"+valor;
+        if(cliImpl.numConta.equals("  .   - ") || cliImpl.senhaCli.equals("  .   - "))
+        {
+            String msg = "Por favor, preencha todos os campos.";
             JOptionPane.showMessageDialog(null, msg);
-            this.setVisible(false);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        else
+        {
+            try {
+                float valor = cliImpl.consultarSaldo();
+                String msg;
+                if(valor == (float)-0.0001){
+                    msg = "Senha incorreta!";
+                }else if(valor == (float)-0.0001){
+                    msg = "Número da conta inexistente, tente novamente ou consulte o seu gerente.";
+                }else{
+                    msg = "Seu saldo é de: R$"+valor;
+                }
+                JOptionPane.showMessageDialog(null, msg);
+                this.setVisible(false);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_confirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
     private javax.swing.JButton confirmar;
+    private javax.swing.JFormattedTextField conta;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField numConta;
     private javax.swing.JTextField senha;
     // End of variables declaration//GEN-END:variables
 }

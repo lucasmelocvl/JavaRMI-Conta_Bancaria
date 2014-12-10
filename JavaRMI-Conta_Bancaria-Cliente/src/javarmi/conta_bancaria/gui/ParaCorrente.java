@@ -42,15 +42,15 @@ public class ParaCorrente extends javax.swing.JFrame {
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        contaBenef = new javax.swing.JTextField();
-        valor = new javax.swing.JTextField();
         confirmar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        senha = new javax.swing.JTextField();
-        conta = new javax.swing.JTextField();
+        conta = new javax.swing.JFormattedTextField();
+        senha = new javax.swing.JFormattedTextField();
+        valor = new javax.swing.JFormattedTextField();
+        contaBenef = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,67 +84,93 @@ public class ParaCorrente extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
+        try
+        {
+            conta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        valor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
+        try
+        {
+            contaBenef.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                        .addComponent(cancelar)
-                        .addGap(18, 18, 18)
-                        .addComponent(confirmar)
-                        .addGap(104, 104, 104))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(70, 70, 70))))
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addContainerGap(91, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(70, 70, 70))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(62, 62, 62))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(14, 14, 14)))
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(contaBenef, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(valor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(contaBenef, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(valor)))
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(87, 87, 87)))
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(senha)
-                            .addComponent(conta, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                            .addComponent(conta, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
                 .addGap(45, 45, 45))
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(cancelar)
+                .addGap(18, 18, 18)
+                .addComponent(confirmar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addGap(31, 31, 31)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
+                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel1))
                     .addComponent(conta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(contaBenef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(28, 28, 28)
+                    .addComponent(jLabel4)
+                    .addComponent(contaBenef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(confirmar))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -175,31 +201,43 @@ public class ParaCorrente extends javax.swing.JFrame {
         cliImpl.senhaCli = senha.getText();
         String numContaBenef = contaBenef.getText();
         String value = valor.getText();
-        float valor = Float.parseFloat(value);
-        try {
-            boolean ret = cliImpl.transferenciaCC(valor, numContaBenef);
-            String msg;
-            if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
-            else msg = "Lamentamos, não foi possível realizar a transferência.";
+        String msg;
+        try{
+            float valor = Float.parseFloat(value);
+            if(cliImpl.numConta.equals("  .   - ") || cliImpl.senhaCli.equals("") ||
+                numContaBenef.equals("  .   - ") || value.equals(""))
+            {
+                msg = "Por favor, preencha todos os campos.";
+                JOptionPane.showMessageDialog(null, msg);
+            }else{
+                try {
+                    boolean ret = cliImpl.transferenciaCC(valor, numContaBenef);
+                    if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
+                    else msg = "Lamentamos, não foi possível realizar a transferência.";
+                    JOptionPane.showMessageDialog(null, msg);
+                    this.setVisible(false);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }catch(Exception e){
+            msg = "Por favor, informe dados válidos.";
             JOptionPane.showMessageDialog(null, msg);
-            this.setVisible(false);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_confirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
     private javax.swing.JButton confirmar;
-    private javax.swing.JTextField conta;
-    private javax.swing.JTextField contaBenef;
+    private javax.swing.JFormattedTextField conta;
+    private javax.swing.JFormattedTextField contaBenef;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField senha;
-    private javax.swing.JTextField valor;
+    private javax.swing.JFormattedTextField senha;
+    private javax.swing.JFormattedTextField valor;
     // End of variables declaration//GEN-END:variables
 }

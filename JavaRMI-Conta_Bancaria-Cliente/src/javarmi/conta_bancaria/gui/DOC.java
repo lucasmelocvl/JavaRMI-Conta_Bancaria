@@ -44,16 +44,16 @@ public class DOC extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         poupBenef = new javax.swing.JCheckBox();
-        contaBenef = new javax.swing.JTextField();
-        valor = new javax.swing.JTextField();
-        bancoBenef = new javax.swing.JTextField();
         confirmar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         senha = new javax.swing.JTextField();
-        conta = new javax.swing.JTextField();
+        conta = new javax.swing.JFormattedTextField();
+        valor = new javax.swing.JFormattedTextField();
+        contaBenef = new javax.swing.JFormattedTextField();
+        bancoBenef = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,6 +91,32 @@ public class DOC extends javax.swing.JFrame {
 
         jLabel2.setText("Número da conta:");
 
+        try
+        {
+            conta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        valor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
+        try
+        {
+            contaBenef.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###-#")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        try
+        {
+            bancoBenef.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
+        } catch (java.text.ParseException ex)
+        {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
@@ -110,11 +136,11 @@ public class DOC extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bancoBenef)
-                    .addComponent(valor)
                     .addComponent(senha)
                     .addComponent(conta)
-                    .addComponent(contaBenef))
+                    .addComponent(valor)
+                    .addComponent(contaBenef)
+                    .addComponent(bancoBenef))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                 .addContainerGap(107, Short.MAX_VALUE)
@@ -132,7 +158,7 @@ public class DOC extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -141,20 +167,20 @@ public class DOC extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addGap(11, 11, 11))
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(contaBenef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(conta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(contaBenef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(32, 32, 32)))
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bancoBenef, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(bancoBenef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(poupBenef)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -192,29 +218,41 @@ public class DOC extends javax.swing.JFrame {
         cliImpl.senhaCli = senha.getText();
         String numContaBenef = contaBenef.getText();
         String value = valor.getText();
-        float valor = Float.parseFloat(value);
         String banco = bancoBenef.getText();
         int bancoBeneficiario = Integer.parseInt(banco);
         boolean isPoupanca = poupBenef.isSelected();
-        
-        try {
-            boolean ret = cliImpl.transferenciaDOC(valor, bancoBeneficiario, isPoupanca, numContaBenef);
-            String msg;
-            if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
-            else msg = "Lamentamos, não foi possível realizar a transferência.";
+        String msg;
+        try{
+            float valor = Float.parseFloat(value);
+            if(cliImpl.numConta.equals("  .   - ") || cliImpl.senhaCli.equals("") || 
+                numContaBenef.equals("  .   - ") || value.equals("") || banco.equals(""))
+            {
+                msg = "Por favor, preencha todos os campos.";
+                JOptionPane.showMessageDialog(null, msg);
+            }
+            else{
+                try {
+                    boolean ret = cliImpl.transferenciaDOC(valor, bancoBeneficiario, isPoupanca, numContaBenef);
+                    if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
+                    else msg = "Lamentamos, não foi possível realizar a transferência.";
+                    JOptionPane.showMessageDialog(null, msg);
+                    this.setVisible(false);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }catch(Exception e){
+            msg = "Por favor, informe dados válidos.";
             JOptionPane.showMessageDialog(null, msg);
-            this.setVisible(false);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_confirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField bancoBenef;
+    private javax.swing.JFormattedTextField bancoBenef;
     private javax.swing.JButton cancelar;
     private javax.swing.JButton confirmar;
-    private javax.swing.JTextField conta;
-    private javax.swing.JTextField contaBenef;
+    private javax.swing.JFormattedTextField conta;
+    private javax.swing.JFormattedTextField contaBenef;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -224,6 +262,6 @@ public class DOC extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JCheckBox poupBenef;
     private javax.swing.JTextField senha;
-    private javax.swing.JTextField valor;
+    private javax.swing.JFormattedTextField valor;
     // End of variables declaration//GEN-END:variables
 }

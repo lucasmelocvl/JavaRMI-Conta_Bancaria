@@ -10,34 +10,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- *
+ * Interface do Cliente.
  * @author lucasmelocvl
  */
 public interface InterfaceCli extends Remote{
-
-    /**
-     * Retorno do status da Conta.
-     * Informa o cliente se sua conta foi criada com sucesso.
-     * @throws RemoteException 
-     */
-    public void retConta() throws RemoteException;
-    
-    /**
-     * Exibir o saldo do cliente.
-     * É impresso na tela o saldo do cliente.
-     * @param saldo Refere-se ao saldo do cliente.
-     * @throws RemoteException 
-     */
-    public void exibirSaldo(float saldo) throws RemoteException;
-    
-    
-    /**
-     * Retorno da transferencia.
-     * É informado ao cliente se a transferência foi executada com sucesso.
-     * @param status Informa se a tranferência foi executada ou não.
-     * @throws RemoteException 
-     */
-    public void retTransferencia(boolean status) throws RemoteException;
     
     /**
      * Notificação de transferência.
@@ -59,7 +35,7 @@ public interface InterfaceCli extends Remote{
     public void ReceberSaque(float valor) throws RemoteException;
     
    /**
-     * Retorno da transferencia.
+     * Retorno do depósito.
      * É informado ao cliente se o depósito foi executada com sucesso.
      * @param valor Valor que foi depositado.
      * @throws RemoteException 
