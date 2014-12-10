@@ -20,12 +20,15 @@ public interface InterfaceServ extends Remote{
      * Cria a conta para um novo cliente.
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
+     * @param numConta
+     * @param banco
      * @param poupanca true se for conta poupança, false se for conta corrente.
      * @param receberNotificacao true se o cliente quiser receber notificações.
      * @param ref Referencia do cliente.
+     * @return True se a contar for criada com sucesso.
      * @throws RemoteException 
      */
-    public void criarConta(String nome, String senha, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException;
+    public boolean criarConta(String nome, String senha, String numConta, int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException;
     
     /**
      * Realiza a consulta de saldo do cliente.
@@ -132,4 +135,13 @@ public interface InterfaceServ extends Remote{
      */
     public void registrarInteresse(String numConta, String senha, InterfaceCli ref) throws RemoteException;
         
+    /**
+     * Validar usuário.
+     * Realiza a validação de um usuário.
+     * @param numConta Numero da conta do cliente.
+     * @param senhaCli Senha do cliente.
+     * @param ref Referencia do cliente.
+     * @return True se os dados estiverem corretos.
+     */
+    public boolean validarUsuario(String numConta, String senhaCli, InterfaceCli ref) throws RemoteException;
 }

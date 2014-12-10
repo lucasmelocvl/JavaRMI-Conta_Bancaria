@@ -26,8 +26,12 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     private int numBanco;
     private float saldo;
     private boolean receberNotif;
-    private final InterfaceCli refCli;
+    private InterfaceCli refCli;
     
+    public ContaImpl() throws RemoteException{
+
+    }
+
     /**
      * Conta Impl.
      * Construtor, cria nova conta do cliente ao ser instaciada.
@@ -35,27 +39,34 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
      * de contas, a nova conta.
      * @param nome Nome do cliente.
      * @param senha Senha do cliente.
+     * @param NConta
+     * @param NBanco
      * @param poupanca true se for poupança.
      * @param receberNotificacao true se o cliente quiser receber notificações.
      * @param ref Interface do cliente.
+     * @return True se a conta for criada com sucesso.
      * @throws RemoteException 
      */
-    public ContaImpl(String nome, String senha, boolean poupanca, 
+    public boolean criarConta(String nome, String senha, String NConta, int NBanco, boolean poupanca, 
             boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
-        nomeCli = nome;
-        senhaCli = senha;
-        numConta = this.gerarNumConta();
+        nomeCli = nome;             //Nome do cliente
+        senhaCli = senha;           //Senha do cliente
+        boolean contaNaoExiste = this.verifNumConta(NConta);
+        if(!contaNaoExiste){        //Verifica se a conta informada já existe
+            return false;
+        }
+        numConta = NConta;          //Número da conta
         if(poupanca)
-            tipoConta = 013;
+            tipoConta = 013;        //Poupança
         else
-            tipoConta = 001;
-        numAgencia = 306;
+            tipoConta = 001;        //Conta-corrente
+        numAgencia = 306;           //Número da agência
         nomeBanco = "Uncle Scrooge Bank";
-        numBanco = 171;
+        numBanco = NBanco;          //Número do banco
         saldo = (float) 0.0;
         if(receberNotificacao){
-            receberNotif = true;
+            receberNotif = true;    //Se quiser receber notificação a ref é guardada
             refCli = ref;
         }else{
             receberNotif = false;
@@ -67,33 +78,27 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
         System.out.println("Novo cliente cadastrado: " + nomeCli);
         System.out.println("Conta nº: " + numConta);
         
+        return true;
+        
         //ContaImpl contaMap = ServImpl.contas.recuperarConta(numConta);
         //System.out.println(contaMap.getSenhaCli());
     }
-
+    
     /**
-     * Gerar numero de conta.
-     * Gera um novo numero de conta.
-     * Considera-se que já exista uma conta (contaExiste), para que entre no 
-     * loop do while, e enquanto não for gerado uma conta diferente das 
-     * existentes, é procurado por novos números de conta.
-     * @return numeroConta Numero da conta do cliente.
+     * Verificar número da conta.
+     * Verifica se já existe o núme 
+     * @param NConta Conta informado. 
+     * Se já existir, retorna falso.
+     * @return True se a conta for verificada com sucesso e não existir.
      */
-    public String gerarNumConta()
+    public boolean verifNumConta(String NConta)
     {
-        String numeroConta = "";
-        boolean contaExiste = true;
-        while(contaExiste){
-            for(int i=0; i<10;i++){
-                int number= (int) (0+Math.random()*9);
-                numeroConta += String.valueOf(number);
-                if(i==8){
-                    numeroConta += "-";
-                }
-            }
-            contaExiste = ServImpl.contas.contaExiste(numeroConta);
-        }
-        return numeroConta;
+        String numeroConta = NConta;
+        boolean contaExiste;
+        contaExiste = ServImpl.contas.contaExiste(numeroConta);
+        if(contaExiste)
+            return false;
+        return true;
     }
     
     @Override

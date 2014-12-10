@@ -45,13 +45,13 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public void criarConta(String nome, String senha, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException
+    public boolean criarConta(String nome, String senha, String numConta, int banco, boolean poupanca, boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
         try{
             InterfaceCli refCli = ref;
-            ContaImpl contaCli = new ContaImpl(nome, senha, poupanca, receberNotificacao, ref);
-            InterfaceConta refConta = (InterfaceConta) contaCli;
-            refCli.retConta(true, refConta);
+            ContaImpl contaCli = new ContaImpl();
+            boolean ret = contaCli.criarConta(nome, senha, numConta, banco, poupanca, receberNotificacao, ref);
+            return ret;
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -340,6 +340,24 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+    }
+
+    @Override
+    public boolean validarUsuario(String numConta, String senhaCli, InterfaceCli ref) throws RemoteException
+    {
+        try{
+            ContaImpl conta = contas.recuperarConta(numConta);
+            if(conta == null){
+                ref.contaInexistente();
+            }else if(!(conta.getSenhaCli().equals(senhaCli))){
+                ref.senhaIncorreta();
+            }else{
+                return true;
+            }   
+        }catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        return false;
     }
     
 }
