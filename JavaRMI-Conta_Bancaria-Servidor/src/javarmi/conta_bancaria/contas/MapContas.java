@@ -11,7 +11,7 @@ import java.util.Map;
 import javarmi.conta_bancaria.impl.ContaImpl;
 
 /**
- *
+ * Hash Map de Contas de clientes.
  * @author lucasmelocvl
  */
 public class MapContas {

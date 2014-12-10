@@ -11,13 +11,15 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
 /**
- *
+ * JavaRMIConta_BancariaServidor.
  * @author lucasmelocvl
  */
 public class JavaRMIConta_BancariaServidor 
 {
 
     /**
+     * Main.
+     * Inicia o servidor.
      * @param args the command line arguments
      * @throws java.rmi.RemoteException
      * @throws java.rmi.AlreadyBoundException

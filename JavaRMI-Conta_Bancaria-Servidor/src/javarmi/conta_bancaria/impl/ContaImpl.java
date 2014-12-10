@@ -9,13 +9,12 @@ package javarmi.conta_bancaria.impl;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import javarmi.conta_bancaria.interfaces.InterfaceCli;
-import javarmi.conta_bancaria.interfaces.InterfaceConta;
 
 /**
  *
  * @author lucasmelocvl
  */
-public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
+public class ContaImpl extends UnicastRemoteObject{
 
     private String nomeCli;             //Nome do cliente.
     private String senhaCli;            //Senha do cliente.
@@ -24,7 +23,7 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     private String numAgencia;          //Numero da agência.
     private String nomeBanco;           //Nome do banco.
     private int numBanco;               //Número do banco.
-    private float saldo;                //Saldo do cliente.
+    private float saldo;               //Saldo do cliente.
     private boolean receberNotif;       //Receber notificações.
     private InterfaceCli refCli;        //Referência do cliente.
     private boolean bloqueado;          //Flag de bloqueio.
@@ -52,46 +51,46 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
     public boolean criarConta(String nome, String senha, String NConta, String NAgencia, int NBanco, boolean poupanca, 
             boolean receberNotificacao, InterfaceCli ref) throws RemoteException
     {
-        nomeCli = nome;             
-        senhaCli = senha;         
+        this.setNomeCli(nome);             
+        this.setSenhaCli(senha);         
         boolean contaNaoExiste = this.verifNumConta(NConta);
         if(!contaNaoExiste){        //Verifica se a conta informada já existe
             return false;
         }
-        numConta = NConta;          
+        setNumConta(NConta);          
         if(poupanca)
-            tipoConta = 013;        //Poupança
+            this.setTipoConta(013);        //Poupança
         else
-            tipoConta = 001;        //Conta-corrente
-        numAgencia = NAgencia;      
-        numBanco = NBanco;          //Número do banco
+        this.setTipoConta(001);        //Conta-corrente
+        this.setNumAgencia(NAgencia);      
+        this.setNumBanco(NBanco);          //Número do banco
         switch(NBanco){
             case 104:
-                nomeBanco = "Caixa Econômica Federal";
+                this.setNomeBanco("Caixa Econômica Federal");
                 break;
             case 356:
-                nomeBanco = "Banco Real S.A.";
+                this.setNomeBanco("Banco Real S.A.");
                 break;
             case 477:
-                nomeBanco = "Citibank S.A.";
+                this.setNomeBanco("Citibank S.A.");
                 break;
             case 487:
-                nomeBanco = "Deutsche Bank S.A. - Banco Alemão ";
+                this.setNomeBanco("Deutsche Bank S.A. - Banco Alemão ");
                 break;
         }
-        saldo = (float) 0.0;
+        this.setSaldo((float) 0.0);
         if(receberNotificacao){
-            receberNotif = true;    //Se quiser receber notificação a ref é guardada
-            refCli = ref;
+            this.setReceberNotif(true);    //Se quiser receber notificação a ref é guardada
+            this.setRefCli(ref);
         }else{
-            receberNotif = false;
-            refCli = null;
+            this.setReceberNotif(false);
+            this.setRefCli(null);
         }
         
-        ServImpl.contas.inserirConta(numConta, this);
+        ServImpl.contas.inserirConta(getNumConta(), this);
         
-        System.out.println("Novo cliente cadastrado: " + nomeCli);
-        System.out.println("Conta nº: " + numConta);
+        System.out.println("Novo cliente cadastrado: " + getNomeCli());
+        System.out.println("Conta nº: " + getNumConta());
         return true;
     }
     
@@ -111,215 +110,165 @@ public class ContaImpl extends UnicastRemoteObject implements InterfaceConta{
             return false;
         return true;
     }
-    
-    @Override
-    public String getNomeCliente() throws RemoteException
+
+    /**
+     * @return the nomeCli
+     */
+    public String getNomeCli()
     {
-        try
-        {
-            return nomeCli;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        return nomeCli;
     }
 
-    @Override
-    public void setNomeCliente(String nomeCliente) throws RemoteException
+    /**
+     * @param nomeCli the nomeCli to set
+     */
+    public void setNomeCli(String nomeCli)
     {
-        try
-        {
-            nomeCli = nomeCliente;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
-    }
-    
-    @Override
-    public String getSenhaCli() throws RemoteException
-    {
-        try
-        {
-            return senhaCli;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }   
+        this.nomeCli = nomeCli;
     }
 
-    @Override
-    public void setSenhaCli(String senha) throws RemoteException
+    /**
+     * @return the senhaCli
+     */
+    public String getSenhaCli()
     {
-        try
-        {
-            senhaCli = senha;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return senhaCli;
     }
 
-    @Override
-    public String getNumConta() throws RemoteException
+    /**
+     * @param senhaCli the senhaCli to set
+     */
+    public void setSenhaCli(String senhaCli)
     {
-        try
-        {
-            return numConta;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.senhaCli = senhaCli;
     }
 
-    @Override
-    public void setNumConta(String numeroConta) throws RemoteException
+    /**
+     * @return the numConta
+     */
+    public String getNumConta()
     {
-        try
-        {
-            numConta = numeroConta;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return numConta;
     }
 
-    @Override
-    public int getTipoConta() throws RemoteException
+    /**
+     * @param numConta the numConta to set
+     */
+    public void setNumConta(String numConta)
     {
-        try
-        {
-            return tipoConta;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.numConta = numConta;
     }
 
-    @Override
-    public void setTipoConta(int tipoContaCli) throws RemoteException
+    /**
+     * @return the tipoConta
+     */
+    public int getTipoConta()
     {
-        try
-        {
-            tipoConta = tipoContaCli;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return tipoConta;
     }
 
-    @Override
-    public String getNumAgencia() throws RemoteException
+    /**
+     * @param tipoConta the tipoConta to set
+     */
+    public void setTipoConta(int tipoConta)
     {
-        try
-        {
-            return numAgencia;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.tipoConta = tipoConta;
     }
 
-    @Override
-    public void setNumAgencia(String numeroAgencia) throws RemoteException
+    /**
+     * @return the numAgencia
+     */
+    public String getNumAgencia()
     {
-        try
-        {
-            numAgencia = numeroAgencia;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return numAgencia;
     }
 
-    @Override
-    public String getNomeBanco() throws RemoteException
+    /**
+     * @param numAgencia the numAgencia to set
+     */
+    public void setNumAgencia(String numAgencia)
     {
-        try
-        {
-            return nomeBanco;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.numAgencia = numAgencia;
     }
-    
-    @Override
-    public void setNomeBanco(String nomeBanco) throws RemoteException
+
+    /**
+     * @return the nomeBanco
+     */
+    public String getNomeBanco()
+    {
+        return nomeBanco;
+    }
+
+    /**
+     * @param nomeBanco the nomeBanco to set
+     */
+    public void setNomeBanco(String nomeBanco)
     {
         this.nomeBanco = nomeBanco;
     }
 
-    @Override
-    public int getNumBanco() throws RemoteException
+    /**
+     * @return the numBanco
+     */
+    public int getNumBanco()
     {
         return numBanco;
     }
 
-    @Override
-    public void setNumBanco(int numBanco) throws RemoteException
+    /**
+     * @param numBanco the numBanco to set
+     */
+    public void setNumBanco(int numBanco)
     {
         this.numBanco = numBanco;
     }
 
-    @Override
-    public float getSaldo() throws RemoteException
+    /**
+     * @return the saldo
+     */
+    public float getSaldo()
     {
-        try
-        {
-            return saldo;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return saldo;
     }
 
-    @Override
-    public void setSaldo(float saldoCli) throws RemoteException
+    /**
+     * @param saldo the saldo to set
+     */
+    public void setSaldo(float saldo)
     {
-        try
-        {
-            saldo = saldoCli;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.saldo = saldo;
     }
 
-    @Override
-    public boolean isReceberNotif() throws RemoteException
+    /**
+     * @return the receberNotif
+     */
+    public boolean isReceberNotif()
     {
-        try
-        {
-            return receberNotif;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        return receberNotif;
     }
 
-    @Override
-    public void setReceberNotif(boolean notificacao) throws RemoteException
+    /**
+     * @param receberNotif the receberNotif to set
+     */
+    public void setReceberNotif(boolean receberNotif)
     {
-        try
-        {
-            receberNotif = notificacao;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }    
+        this.receberNotif = receberNotif;
     }
 
-    @Override
-    public InterfaceCli getRefCli()  throws RemoteException
+    /**
+     * @return the refCli
+     */
+    public InterfaceCli getRefCli()
     {
-        try
-        {
-            return refCli;
-        }catch(UnsupportedOperationException e)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }       
+        return refCli;
+    }
+
+    /**
+     * @param refCli the refCli to set
+     */
+    public void setRefCli(InterfaceCli refCli)
+    {
+        this.refCli = refCli;
     }
 
     /**
