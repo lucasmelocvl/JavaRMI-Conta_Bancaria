@@ -23,12 +23,12 @@ public class JavaRMIConta_BancariaCliente
      * @throws java.rmi.RemoteException
      * @throws java.rmi.NotBoundException
      */
-    public static void main(String[] args) throws RemoteException, NotBoundException 
+    /*public static void main(String[] args) throws RemoteException, NotBoundException 
     {
         Registry referenciaServicoNomes;
         referenciaServicoNomes = LocateRegistry.getRegistry("localhost", 1099);
         CliImpl cliente = new CliImpl();
         cliente.receberRefServ(referenciaServicoNomes);
-    }
+    }*/
     
 }

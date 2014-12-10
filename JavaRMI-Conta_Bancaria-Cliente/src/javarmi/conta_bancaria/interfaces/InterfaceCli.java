@@ -8,7 +8,6 @@ package javarmi.conta_bancaria.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import javarmi.conta_bancaria.impl.CliImpl;
 
 /**
  *
@@ -19,11 +18,9 @@ public interface InterfaceCli extends Remote{
     /**
      * Retorno do status da Conta.
      * Informa o cliente se sua conta foi criada com sucesso.
-     * @param status True se a conta for criada com sucesso.
-     * @param ref Referencia da conta do cliente.
      * @throws RemoteException 
      */
-    public void retConta(boolean status, InterfaceConta ref) throws RemoteException;
+    public void retConta() throws RemoteException;
     
     /**
      * Exibir o saldo do cliente.

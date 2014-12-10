@@ -5,12 +5,12 @@
  */
 package javarmi.conta_bancaria.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javarmi.conta_bancaria.impl.CliImpl;
+import javarmi.conta_bancaria.interfaces.InterfaceConta;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,11 +19,15 @@ import javax.swing.JOptionPane;
  */
 public class CriarConta extends javax.swing.JFrame{
 
+    CliImpl cliImpl;
+    InterfaceConta contaCli;
     String nomeCli;
     String senhaCli;
     String confirmSenhaCli;
     boolean isPoupanca;
     boolean receberNotif;
+    private String numConta;
+    private int numBanco;
     
     /**
      * Creates new form CriarConta
@@ -31,6 +35,12 @@ public class CriarConta extends javax.swing.JFrame{
     public CriarConta()
     {
         initComponents();
+
+        try {
+            cliImpl = new CliImpl();
+        } catch (RemoteException | NotBoundException ex) {
+            Logger.getLogger(CriarConta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -55,6 +65,10 @@ public class CriarConta extends javax.swing.JFrame{
         receberNotificacao = new javax.swing.JCheckBox();
         senha = new javax.swing.JTextField();
         confirmSenha = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        numeroConta = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        banco = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +97,14 @@ public class CriarConta extends javax.swing.JFrame{
 
         receberNotificacao.setText("Receber notificações automaticamente?");
 
+        jLabel6.setText("Conta:");
+
+        numeroConta.setText("  .   - ");
+
+        jLabel7.setText("Banco:");
+
+        banco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "104", "356", "477", "487" }));
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
@@ -95,48 +117,68 @@ public class CriarConta extends javax.swing.JFrame{
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(banco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(poupanca))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addGap(67, 67, 67)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(nome)
+                                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(18, 18, 18)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(confirmSenha)
+                                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                        .addComponent(numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(Confirmar)
+                                .addComponent(receberNotificacao)
                                 .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                                    .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel4))
-                                    .addGap(67, 67, 67)
-                                    .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(nome, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                                        .addComponent(senha)))
-                                .addComponent(poupanca)
-                                .addComponent(receberNotificacao))
-                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(confirmSenha)))))
+                                    .addComponent(jLabel3)
+                                    .addGap(197, 197, 197))))))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(confirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(poupanca)
+                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(poupanca)
+                    .addComponent(jLabel7)
+                    .addComponent(banco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(receberNotificacao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Confirmar)
                 .addGap(29, 29, 29))
         );
@@ -162,7 +204,10 @@ public class CriarConta extends javax.swing.JFrame{
         confirmSenhaCli = confirmSenha.getText();
         isPoupanca = poupanca.isSelected();
         receberNotif = receberNotificacao.isSelected();
-        
+        numConta = numeroConta.getText();
+        String bank = banco.getSelectedItem().toString();
+        numBanco = Integer.parseInt(bank);
+                                
         if(nomeCli.equals("") || senhaCli.equals("") || confirmSenhaCli.equals(""))
         {
             String msg = "Por favor, preencha todos os campos.";
@@ -172,28 +217,56 @@ public class CriarConta extends javax.swing.JFrame{
         {
             String msg = "Senhas não correspondem, tente novamente.";
             JOptionPane.showMessageDialog(null, msg);
-        }else{
-            CliImpl cli;
-            try {
-                cli = new CliImpl();
-                cli.nomeCli = nomeCli;
-                cli.senhaCli = senhaCli;
-                cli.isPoupanca = isPoupanca;
-                cli.isRecebNotif = receberNotif;
-                System.out.println(nomeCli);
-                System.out.println(senhaCli);
-                System.out.println(isPoupanca);
-                System.out.println(receberNotif);
-                this.setVisible(false);
-                cli.retConta(true, null);
-            } catch (RemoteException ex) {
+        }
+        else
+        {
+            cliImpl.nomeCli = nomeCli;
+            cliImpl.senhaCli = senhaCli;
+            cliImpl.isPoupanca = isPoupanca;
+            cliImpl.isRecebNotif = receberNotif;
+            cliImpl.numConta = numConta;
+            cliImpl.banco = numBanco;
+            System.out.println(nomeCli);
+            System.out.println(senhaCli);
+            System.out.println(isPoupanca);
+            System.out.println(receberNotif);
+
+            boolean result = false;
+            try 
+            {
+                result = cliImpl.criarConta();
+                if(!result)
+                {
+                    String msg = "Não foi possível criar sua conta, tente novamente.";
+                    JOptionPane.showMessageDialog(null, msg);
+                }
+                else
+                {
+                    this.setVisible(false);
+                    new OpcoesOperacoes(cliImpl).setVisible(true);
+                }
+                
+            } 
+            catch (RemoteException ex) 
+            {
                 Logger.getLogger(CriarConta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }    
     }//GEN-LAST:event_ConfirmarActionPerformed
 
+    public static void main(String[] args)
+    {
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CriarConta().setVisible(true);
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Confirmar;
+    private javax.swing.JComboBox banco;
     private javax.swing.JTextField confirmSenha;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
@@ -201,7 +274,10 @@ public class CriarConta extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField nome;
+    private javax.swing.JTextField numeroConta;
     private javax.swing.JCheckBox poupanca;
     private javax.swing.JCheckBox receberNotificacao;
     private javax.swing.JTextField senha;
