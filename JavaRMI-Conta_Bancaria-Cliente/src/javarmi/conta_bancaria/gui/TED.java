@@ -222,27 +222,32 @@ public class TED extends javax.swing.JFrame {
         String numContaBenef = contaBenef.getText();
         String value = valor.getText();
         String banco = contaBenef.getText();
-        int bancoBeneficiario = Integer.parseInt(banco);
         boolean isPoupanca = poupBenef.isSelected();
         String msg;
         try{
-            float valor = Float.parseFloat(value);
-            if(cliImpl.numConta.equals("  .   - ") || cliImpl.senhaCli.equals("") || 
-                numContaBenef.equals("  .   - ") || value.equals("") || banco.equals(""))
-            {
-                msg = "Por favor, preencha todos os campos.";
-                JOptionPane.showMessageDialog(null, msg);
-            }
-            else{
-                try {
-                    boolean ret = cliImpl.transferenciaTED(valor, bancoBeneficiario, isPoupanca, numContaBenef);
-                    if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
-                    else msg = "Lamentamos, não foi possível realizar a transferência.";
+            int bancoBeneficiario = Integer.parseInt(banco);
+            try{
+                float valor = Float.parseFloat(value);
+                if(cliImpl.numConta.equals("  .   - ") || cliImpl.senhaCli.equals("") || 
+                    numContaBenef.equals("  .   - ") || value.equals("") || banco.equals(""))
+                {
+                    msg = "Por favor, preencha todos os campos.";
                     JOptionPane.showMessageDialog(null, msg);
-                    this.setVisible(false);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                else{
+                    try {
+                        boolean ret = cliImpl.transferenciaTED(valor, bancoBeneficiario, isPoupanca, numContaBenef);
+                        if(ret) msg = "Transferência para conta-corrente realizada com sucesso!";
+                        else msg = "Lamentamos, não foi possível realizar a transferência.";
+                        JOptionPane.showMessageDialog(null, msg);
+                        this.setVisible(false);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ConsultarSaldo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }catch(Exception e){
+                msg = "Por favor, informe dados válidos.";
+                JOptionPane.showMessageDialog(null, msg);
             }
         }catch(Exception e){
             msg = "Por favor, informe dados válidos.";

@@ -163,7 +163,7 @@ public class ConsultarSaldo extends javax.swing.JFrame {
                 String msg;
                 if(valor == (float)-0.0001){
                     msg = "Senha incorreta!";
-                }else if(valor == (float)-0.0001){
+                }else if(valor == (float)-0.0002){
                     msg = "Número da conta inexistente, tente novamente ou consulte o seu gerente.";
                 }else{
                     msg = "Seu saldo é de: R$"+valor;
