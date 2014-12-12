@@ -96,13 +96,13 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
             ContaImpl conta = contas.recuperarConta(numConta);
             if(conta == null){
                 ref.contaInexistente();
+                return (float)-0.0002;
             }else if(conta.getSenhaCli().equals(senha)){
                 return conta.getSaldo();
             }else{
                 ref.senhaIncorreta();
                 return (float)-0.0001;
             }
-            return (float)-0.0002;
         }catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
